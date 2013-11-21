@@ -15,13 +15,14 @@
 #include "drawNumeral.h"
 
 // this library is for drawing characters in the graphics window
+// it's incomplete implementation as of November 21, 2013
 #include "drawCharacters.h"
 
 #define BOARD_SIZE 9
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 600
 
-// typedef for boolean type
+// typedef for boolean
 typedef enum { false = 0, true } boolean;
 
 /*
@@ -41,6 +42,10 @@ void showInstructions();
 
 // generates the solution board, and removes an appropriate number of numbers to generate the puzzle board, and saves the valid positions in the valid positions board
 void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+
+// gets the user input: a click at a position, and an input number
+// need to handle the case where the user clicks multiple times
+void getUserInput(int *xPos, int *yPos, int *inputNum);
 
 // helper function to translate from screen location to board index
 void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY);
@@ -109,6 +114,11 @@ int main() {
 	return 0;
 }
 
+/*
+   =======================
+   function implementation
+   =======================
+*/
 
 void startGame() {
 
@@ -162,7 +172,7 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	// to be implemented
 }
 
-void getUserInput(int *xPos, int *yPos) {
+void getUserInput(int *xPos, int *yPos, int *inputNum) {
 
 	// to be implemented
 }
