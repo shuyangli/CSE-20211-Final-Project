@@ -15,5 +15,8 @@ drawCharacters.o: drawCharacters.c
 drawNumeral.o: drawNumeral.c
 	gcc -c drawNumeral.c -lm
 
+drawTest: drawTest.c
+	gcc drawTest.c gfx.c drawNumeral.c drawCharacters.c -o drawTest -I/usr/X11R6/include -L/usr/X11R6/lib -lX11 -lm
+
 clean:
 	rm *.o

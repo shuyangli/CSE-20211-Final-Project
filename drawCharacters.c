@@ -165,39 +165,38 @@ void draw_B(int x, int y, int width, int height) {
 	draw_char_arc (x, y + height * 3 / 4, width / 2, - PI / 2, PI / 2);
 }
 
-void draw_C(int x, int y, int width, int height);
-void draw_D(int x, int y, int width, int height);
-void draw_E(int x, int y, int width, int height);
-void draw_F(int x, int y, int width, int height);
-void draw_G(int x, int y, int width, int height);
-void draw_H(int x, int y, int width, int height);
-void draw_I(int x, int y, int width, int height);
-void draw_J(int x, int y, int width, int height);
-void draw_K(int x, int y, int width, int height);
-void draw_L(int x, int y, int width, int height);
-void draw_M(int x, int y, int width, int height);
-void draw_N(int x, int y, int width, int height);
-void draw_O(int x, int y, int width, int height);
-void draw_P(int x, int y, int width, int height);
-void draw_Q(int x, int y, int width, int height);
-void draw_R(int x, int y, int width, int height);
-void draw_S(int x, int y, int width, int height);
-void draw_T(int x, int y, int width, int height);
-void draw_U(int x, int y, int width, int height);
-void draw_V(int x, int y, int width, int height);
-void draw_W(int x, int y, int width, int height);
-void draw_X(int x, int y, int width, int height);
-void draw_Y(int x, int y, int width, int height);
-void draw_Z(int x, int y, int width, int height);
-void draw_nonsense(int x, int y, int width, int height);
+void draw_C(int x, int y, int width, int height) {}
+void draw_D(int x, int y, int width, int height) {}
+void draw_E(int x, int y, int width, int height) {}
+void draw_F(int x, int y, int width, int height) {}
+void draw_G(int x, int y, int width, int height) {}
+void draw_H(int x, int y, int width, int height) {}
+void draw_I(int x, int y, int width, int height) {}
+void draw_J(int x, int y, int width, int height) {}
+void draw_K(int x, int y, int width, int height) {}
+void draw_L(int x, int y, int width, int height) {}
+void draw_M(int x, int y, int width, int height) {}
+void draw_N(int x, int y, int width, int height) {}
+void draw_O(int x, int y, int width, int height) {}
+void draw_P(int x, int y, int width, int height) {}
+void draw_Q(int x, int y, int width, int height) {}
+void draw_R(int x, int y, int width, int height) {}
+void draw_S(int x, int y, int width, int height) {}
+void draw_T(int x, int y, int width, int height) {}
+void draw_U(int x, int y, int width, int height) {}
+void draw_V(int x, int y, int width, int height) {}
+void draw_W(int x, int y, int width, int height) {}
+void draw_X(int x, int y, int width, int height) {}
+void draw_Y(int x, int y, int width, int height) {}
+void draw_Z(int x, int y, int width, int height) {}
 
 void draw_arc(int x, int y, int radius, double alpha, double beta) {
 	double theta, dtheta = 0.01;
-	for (theta = alpha, theta <= beta; theta += dtheta) {
-		ax = x + r * cos(theta);
-		ay = y + r * sin(theta);
-		bx = x + r * cos(theta + dtheta);
-		by = y + r * sin(theta + dtheta);
+	for (theta = alpha; theta <= beta; theta += dtheta) {
+		double ax = x + radius * cos(theta);
+		double ay = y + radius * sin(theta);
+		double bx = x + radius * cos(theta + dtheta);
+		double by = y + radius * sin(theta + dtheta);
 		gfx_line(ax, ay, bx, by);
 	}
 }
