@@ -161,8 +161,8 @@ void draw_A(int x, int y, int width, int height) {
 
 void draw_B(int x, int y, int width, int height) {
 	gfx_line (x, y + height, x, y);
-	draw_arc (x, y + height / 4, width / 2, - PI / 2, PI / 2);
-	draw_arc (x, y + height * 3 / 4, width / 2, - PI / 2, PI / 2);
+	draw_char_arc (x, y + height / 4, width / 2, - PI / 2, PI / 2);
+	draw_char_arc (x, y + height * 3 / 4, width / 2, - PI / 2, PI / 2);
 }
 
 void draw_C(int x, int y, int width, int height);

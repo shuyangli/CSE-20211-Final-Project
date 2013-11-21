@@ -11,6 +11,12 @@
 #include <stdio.h>
 #include "gfx.h"
 
+// this library is for drawing numbers in the graphics window
+#include "drawNumeral.h"
+
+// this library is for drawing characters in the graphics window
+#include "drawCharacters.h"
+
 #define BOARD_SIZE 9
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 600
@@ -42,6 +48,7 @@ void show_instructions();
    ==========================================
 */
 
+// given a position (x, y) on the board, this functions returns if the position is available for the user to change, i.e. it's not one of the computer-generated numbers
 boolean isValidPosition(const int posX, const int posY, const char validPositions[BOARD_SIZE][BOARD_SIZE]);
 
 /*

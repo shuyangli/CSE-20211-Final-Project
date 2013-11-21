@@ -43,10 +43,7 @@ void draw_Z(int x, int y, int width, int height);
 
 void draw_nonsense(int x, int y, int width, int height);
 
-void draw_arc(int x, int y, int radius, double alpha, double beta);
-
-
-
+void draw_char_arc(int x, int y, int radius, double alpha, double beta);
 
 
 #endif
