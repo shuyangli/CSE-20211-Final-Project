@@ -42,6 +42,9 @@ void start_game();
 // displays instructions, and returns as the user prompts
 void show_instructions();
 
+// generates the solution board, and removes an appropriate number of numbers to generate the puzzle board, and saves the valid positions in the valid positions board
+void generateBoard(int *solutionBoard[BOARD_SIZE][BOARD_SIZE], int *puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean *validPositions[BOARD_SIZE][BOARD_SIZE]);
+
 /*
    ==========================================
    completed function prototypes are all here
@@ -50,6 +53,9 @@ void show_instructions();
 
 // given a position (x, y) on the board, this functions returns if the position is available for the user to change, i.e. it's not one of the computer-generated numbers
 boolean isValidPosition(const int posX, const int posY, const char validPositions[BOARD_SIZE][BOARD_SIZE]);
+
+// checks if the game ends
+boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
 
 /*
    =============
@@ -107,5 +113,24 @@ void start_game() {
 	boolean validPositions[BOARD_SIZE][BOARD_SIZE] = { 0 };
 
 	// to be completed
+	generateBoard(&solutionBoard, &puzzleBoard, &validPositions);
 
+}
+
+void generateBoard(int *solutionBoard[BOARD_SIZE][BOARD_SIZE], int *puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean *validPositions[BOARD_SIZE][BOARD_SIZE]) {
+
+	// to be completed
+}
+
+boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
+
+	int i, j;
+	int numBlank = 0;
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			if (puzzleBoard[i][j] == 0) numBlank++;
+		}
+	}
+
+	return (numBlank == 0);
 }
