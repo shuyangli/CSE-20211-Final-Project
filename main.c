@@ -31,13 +31,13 @@ typedef enum { false = 0, true } boolean;
 */
 
 // sets up graphics window
-void open_graphics();
+void openGraphics();
 
 // show game menu and get user input
-void show_game_menu(int *userChoice);
+void showGameMenu(int *userChoice);
 
 // displays instructions, and returns as the user prompts
-void show_instructions();
+void showInstructions();
 
 // generates the solution board, and removes an appropriate number of numbers to generate the puzzle board, and saves the valid positions in the valid positions board
 void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
@@ -55,7 +55,7 @@ void indexToScreen(const int indexX, const int indexY, int *screenX, int *screen
 */
 
 // sets up a new game of sudoku, and returns when the current game ends
-void start_game();
+void startGame();
 
 // given a position (x, y) on the board, this functions returns if the position is available for the user to change, i.e. it's not one of the computer-generated numbers
 boolean isValidPosition(const int posX, const int posY, const char validPositions[BOARD_SIZE][BOARD_SIZE]);
@@ -75,7 +75,7 @@ void updateBoard(const int xPos, const int yPos, const int inputNum, int puzzleB
 int main() {
 
 	// this function sets up graphics window
-	open_graphics();
+	openGraphics();
 
 	// flag to check if user quits the game
 	boolean userQuitsGame = false;
@@ -85,18 +85,18 @@ int main() {
 
 		// show game menu and get user choice
 		int userChoice = 0;
-		show_game_menu(&userChoice);
+		showGameMenu(&userChoice);
 
 		switch (userChoice) {
 
 			// if user chooses to start game
 			case 1:
-				start_game();
+				startGame();
 				break;
 
 			// if user chooses to show instructions
 			case 2:
-				show_instructions();
+				showInstructions();
 				break;
 
 			// if user chooses to quit game, we only need to set the flag
@@ -110,7 +110,7 @@ int main() {
 }
 
 
-void start_game() {
+void startGame() {
 
 	// variable declaration for game board
 	int solutionBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };
@@ -121,10 +121,10 @@ void start_game() {
 	generateBoard(solutionBoard, puzzleBoard, validPositions);
 
 	while (!isGameEnd(puzzleBoard) && !userGivesUp) {
-		print_board(puzzleBoard);
+		printBoard(puzzleBoard);
 
 		int xPos, yPos, inputNum;
-		get_user_input(&xPos, &yPos, &inputNum);
+		getUserInput(&xPos, &yPos, &inputNum);
 
 		if (isValidPosition(xPos, yPos, validPositions) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
 			updateBoard(xPos, yPos, inputNum, puzzleBoard);
@@ -134,7 +134,7 @@ void start_game() {
 	}
 
 	if (userGivesUp) {
-		print_board(solutionBoard);
+		printBoard(solutionBoard);
 		// wait for user to continue
 	}
 }
@@ -157,12 +157,12 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	return (numBlank == 0);
 }
 
-void print_board(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
+void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
 }
 
-void get_user_input(int *xPos, int *yPos) {
+void getUserInput(int *xPos, int *yPos) {
 
 	// to be implemented
 }
