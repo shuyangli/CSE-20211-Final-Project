@@ -205,12 +205,7 @@ void dc_drawNumeral(int x, int y, int event) {
 	}
 }
 
-void draw_A(int x, int y, int height) {
-	gfx_line (x, y + height, x + height / 4, y);
-	gfx_line (x + height / 2, y, x + height / 4, y + height);
-	gfx_line (x + height / 4, y + height / 2, x + height * 3 / 8, y + height / 2);
-}
-
+void draw_A(int x, int y, int height) {}
 void draw_B(int x, int y, int height) {}
 void draw_C(int x, int y, int height) {}
 void draw_D(int x, int y, int height) {}

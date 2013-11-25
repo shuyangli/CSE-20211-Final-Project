@@ -32,7 +32,7 @@ int main() {
 			dc_update_height(height);
 		} else {
 			if (event - '0' < 0 || event - '0' > 9) {
-				dc_drawCharacter(x, y, dc_get_height() / 2, dc_get_height(), event);
+				dc_drawCharacter(x, y, event);
 			} else {
 				dc_drawNumeral(x, y, event - '0');
 			}
