@@ -1,5 +1,5 @@
 drawCharTest: drawCharacters.c
-	gcc drawTest.c drawCharacters.c drawNumeral.c gfx.c -o drawCharTest -I/usr/X11R6/include -L/usr/X11R6/lib -lX11 -lm
+	gcc drawTest.c drawCharacters.c gfx.c -o drawCharTest -I/usr/X11R6/include -L/usr/X11R6/lib -lX11 -lm
 
 
 # all: sudoku
