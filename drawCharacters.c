@@ -146,10 +146,6 @@ void drawCharacter(int x, int y, int width, int height, char c) {
 		case 'Z':
 		draw_Z(x, y, width, height);
 		break;
-
-		default:
-		draw_nonsense(x, y, width, height);
-		break;
 	}
 }
 
