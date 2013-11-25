@@ -190,7 +190,7 @@ void draw_X(int x, int y, int width, int height) {}
 void draw_Y(int x, int y, int width, int height) {}
 void draw_Z(int x, int y, int width, int height) {}
 
-void draw_arc(int x, int y, int radius, double alpha, double beta) {
+void draw_char_arc(int x, int y, int radius, double alpha, double beta) {
 	double theta, dtheta = 0.01;
 	for (theta = alpha; theta <= beta; theta += dtheta) {
 		double ax = x + radius * cos(theta);
