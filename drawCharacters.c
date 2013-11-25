@@ -14,136 +14,138 @@
 
 static int globalHeight = 100;
 
-void dc_drawCharacter(int x, int y, int width, int height, char c) {
+void dc_drawCharacter(int x, int y, char c) {
+	int height = globalHeight;
+	
 	switch (c) {
 		case 'a':
 		case 'A':
-		draw_A(x, y, width, height);
+		draw_A(x, y, height);
 		break;
 
 		case 'b':
 		case 'B':
-		draw_B(x, y, width, height);
+		draw_B(x, y, height);
 		break;
 
 		case 'c':
 		case 'C':
-		draw_C(x, y, width, height);
+		draw_C(x, y, height);
 		break;
 
 		case 'd':
 		case 'D':
-		draw_D(x, y, width, height);
+		draw_D(x, y, height);
 		break;
 
 		case 'e':
 		case 'E':
-		draw_E(x, y, width, height);
+		draw_E(x, y, height);
 		break;
 
 		case 'f':
 		case 'F':
-		draw_F(x, y, width, height);
+		draw_F(x, y, height);
 		break;
 
 		case 'g':
 		case 'G':
-		draw_G(x, y, width, height);
+		draw_G(x, y, height);
 		break;
 
 		case 'h':
 		case 'H':
-		draw_H(x, y, width, height);
+		draw_H(x, y, height);
 		break;
 
 		case 'i':
 		case 'I':
-		draw_I(x, y, width, height);
+		draw_I(x, y, height);
 		break;
 
 		case 'j':
 		case 'J':
-		draw_J(x, y, width, height);
+		draw_J(x, y, height);
 		break;
 
 		case 'k':
 		case 'K':
-		draw_K(x, y, width, height);
+		draw_K(x, y, height);
 		break;
 
 		case 'l':
 		case 'L':
-		draw_L(x, y, width, height);
+		draw_L(x, y, height);
 		break;
 
 		case 'm':
 		case 'M':
-		draw_M(x, y, width, height);
+		draw_M(x, y, height);
 		break;
 
 		case 'n':
 		case 'N':
-		draw_N(x, y, width, height);
+		draw_N(x, y, height);
 		break;
 
 		case 'o':
 		case 'O':
-		draw_O(x, y, width, height);
+		draw_O(x, y, height);
 		break;
 
 		case 'p':
 		case 'P':
-		draw_P(x, y, width, height);
+		draw_P(x, y, height);
 		break;
 
 		case 'q':
 		case 'Q':
-		draw_Q(x, y, width, height);
+		draw_Q(x, y, height);
 		break;
 
 		case 'r':
 		case 'R':
-		draw_R(x, y, width, height);
+		draw_R(x, y, height);
 		break;
 
 		case 's':
 		case 'S':
-		draw_S(x, y, width, height);
+		draw_S(x, y, height);
 		break;
 
 		case 't':
 		case 'T':
-		draw_T(x, y, width, height);
+		draw_T(x, y, height);
 		break;
 
 		case 'u':
 		case 'U':
-		draw_U(x, y, width, height);
+		draw_U(x, y, height);
 		break;
 
 		case 'v':
 		case 'V':
-		draw_V(x, y, width, height);
+		draw_V(x, y, height);
 		break;
 
 		case 'w':
 		case 'W':
-		draw_W(x, y, width, height);
+		draw_W(x, y, height);
 		break;
 
 		case 'x':
 		case 'X':
-		draw_X(x, y, width, height);
+		draw_X(x, y, height);
 		break;
 
 		case 'y':
 		case 'Y':
-		draw_Y(x, y, width, height);
+		draw_Y(x, y, height);
 		break;
 
 		case 'z':
 		case 'Z':
-		draw_Z(x, y, width, height);
+		draw_Z(x, y, height);
 		break;
 	}
 }
@@ -203,37 +205,37 @@ void dc_drawNumeral(int x, int y, int event) {
 	}
 }
 
-void draw_A(int x, int y, int width, int height) {
-	gfx_line (x, y + height, x + width / 2, y);
-	gfx_line (x + width / 2, y, x + width, y + height);
-	gfx_line ( x + width / 4, y + height / 2, x + width * 3 / 4, y + height / 2);
+void draw_A(int x, int y, int height) {
+	gfx_line (x, y + height, x + height / 4, y);
+	gfx_line (x + height / 2, y, x + height / 4, y + height);
+	gfx_line (x + height / 4, y + height / 2, x + height * 3 / 8, y + height / 2);
 }
 
-void draw_B(int x, int y, int width, int height) {}
-void draw_C(int x, int y, int width, int height) {}
-void draw_D(int x, int y, int width, int height) {}
-void draw_E(int x, int y, int width, int height) {}
-void draw_F(int x, int y, int width, int height) {}
-void draw_G(int x, int y, int width, int height) {}
-void draw_H(int x, int y, int width, int height) {}
-void draw_I(int x, int y, int width, int height) {}
-void draw_J(int x, int y, int width, int height) {}
-void draw_K(int x, int y, int width, int height) {}
-void draw_L(int x, int y, int width, int height) {}
-void draw_M(int x, int y, int width, int height) {}
-void draw_N(int x, int y, int width, int height) {}
-void draw_O(int x, int y, int width, int height) {}
-void draw_P(int x, int y, int width, int height) {}
-void draw_Q(int x, int y, int width, int height) {}
-void draw_R(int x, int y, int width, int height) {}
-void draw_S(int x, int y, int width, int height) {}
-void draw_T(int x, int y, int width, int height) {}
-void draw_U(int x, int y, int width, int height) {}
-void draw_V(int x, int y, int width, int height) {}
-void draw_W(int x, int y, int width, int height) {}
-void draw_X(int x, int y, int width, int height) {}
-void draw_Y(int x, int y, int width, int height) {}
-void draw_Z(int x, int y, int width, int height) {}
+void draw_B(int x, int y, int height) {}
+void draw_C(int x, int y, int height) {}
+void draw_D(int x, int y, int height) {}
+void draw_E(int x, int y, int height) {}
+void draw_F(int x, int y, int height) {}
+void draw_G(int x, int y, int height) {}
+void draw_H(int x, int y, int height) {}
+void draw_I(int x, int y, int height) {}
+void draw_J(int x, int y, int height) {}
+void draw_K(int x, int y, int height) {}
+void draw_L(int x, int y, int height) {}
+void draw_M(int x, int y, int height) {}
+void draw_N(int x, int y, int height) {}
+void draw_O(int x, int y, int height) {}
+void draw_P(int x, int y, int height) {}
+void draw_Q(int x, int y, int height) {}
+void draw_R(int x, int y, int height) {}
+void draw_S(int x, int y, int height) {}
+void draw_T(int x, int y, int height) {}
+void draw_U(int x, int y, int height) {}
+void draw_V(int x, int y, int height) {}
+void draw_W(int x, int y, int height) {}
+void draw_X(int x, int y, int height) {}
+void draw_Y(int x, int y, int height) {}
+void draw_Z(int x, int y, int height) {}
 
 void dc_update_height(int newHeight) {
 	globalHeight = newHeight;
