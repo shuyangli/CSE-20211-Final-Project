@@ -77,7 +77,7 @@ void updateBoard(const int xPos, const int yPos, const int inputNum, int puzzleB
    =============
 */
 
-int main() {
+int main(int argc, char *argv[]) {
 
 	// this function sets up graphics window
 	openGraphics();
