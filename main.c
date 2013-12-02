@@ -88,6 +88,9 @@ int main(int argc, char *argv[]) {
 	// main game loop
 	while (!userQuitsGame) {
 
+		// clear screen before doing anything else
+		gfx_clear();
+
 		// show game menu and get user choice
 		int userChoice = 0;
 		showGameMenu(&userChoice);
