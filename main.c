@@ -92,7 +92,7 @@ boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, con
 int main(int argc, char *argv[]) {
 
 	// generate new random seed
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 
 	// this function sets up graphics window
 	openGraphics();
@@ -198,7 +198,7 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 				int num = rand() % 9 + 1;
 
 				// if that number is valid, update accordingly
-				if (isValidMove(nextX, nextY, num, board)) {
+				if (isValidMove(nextX, nextY, num, solutionBoard)) {
 					solutionBoard[nextY][nextX] = num;
 					validPositions[nextY][nextX] = false;
 
@@ -290,7 +290,6 @@ void getUserInput(int *xPos, int *yPos, int *inputNum) {
 }
 
 boolean isValidPosition(const int posX, const int posY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
-
 	return validPositions[posY][posX];
 }
 
