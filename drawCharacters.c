@@ -19,13 +19,13 @@ void dc_drawString(int x, int y, char *str) {
 	int width = globalHeight / 2;
 
 	// shadowing the outer x
-	int x = x;
+	int locx = x;
 
 	char *ptr;
 	for (ptr = str; *ptr != '\0'; ptr++) {
-		dc_drawCharacter(x, y, *ptr);
-		x += width;
-		x += width / 10;
+		dc_drawCharacter(locx, y, *ptr);
+		locx += width;
+		locx += width / 10;
 	}
 
 }
