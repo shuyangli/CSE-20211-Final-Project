@@ -286,7 +286,10 @@ void draw_I(int x, int y, int height)
 void draw_J(int x, int y, int height)
 {
 	int width = height/2;
-}
+	gfx_line(x, y, x+width, y);
+	gfx_line(x+(width/2), y, x+(width/2), y+(2*height/3));
+	draw_arc(x,y+(height/3), width/4, height/3,-M_PI, 0);
+}	
 
 void draw_K(int x, int y, int height)
 {
@@ -335,8 +338,8 @@ void draw_P(int x, int y, int height)
 
 void draw_Q(int x, int y, int height)
 {
-	int width = height/2;
-	draw_arc(x-width,y,width/2, height/2,0, 2*M_PI);
+	int width = height / 2;
+	draw_arc(x, y, width / 2, height / 2, 0, 2 * PI);
 }
 
 void draw_R(int x, int y, int height)
@@ -366,7 +369,10 @@ void draw_T(int x, int y, int height)
 
 void draw_U(int x, int y, int height)
 {
-
+	int width = height/2;
+	gfx_line(x, y, x, y+(2*height/3));
+	gfx_line(x+width, y, x+width, y+(2*height/3));
+	draw_arc(x,y+(height/3), width/2, height/3,-M_PI, 0);
 }
 
 void draw_V(int x, int y, int height)
