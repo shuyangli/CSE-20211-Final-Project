@@ -29,6 +29,9 @@
 // typedef for boolean
 typedef enum { false = 0, true } boolean;
 
+// global flag for debug
+boolean debug = false;
+
 /*
    ==========================================================
    function prototypes to be implemented are all written here
@@ -293,7 +296,42 @@ boolean isValidPosition(const int posX, const int posY, const boolean validPosit
 
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
 
-	// to be implemented
+	// first check horizontally
+	int curX;
+	for (curX = 0; curX < BOARD_SIZE; curX++) {
+		if (board[yPos][curX] == inputNum) return false;
+	}
+
+	// then check vertically
+	int curY;
+	for (curY = 0; curY < BOARD_SIZE; curY++) {
+		if (board[curY][xPos] == inputNum) return false;
+	}
+
+	// finally check the grid
+	return checkGrid(xPos, yPos, inputNum, board);
+}
+
+boolean checkGrid(int x, int y,const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
+
+	int baseX, baseY;
+
+	if (x >= 0 && x < 3) baseX = 0;
+	else if (x >= 3 && x < 6) baseX = 3;
+	else baseX = 6;
+
+	if (y >= 0 && y < 3) baseY = 0;
+	else if (y >= 3 && y < 6) baseY = 3;
+	else baseY = 6;
+
+	int i, j;
+	for (i = baseX; i < baseX + 3; i++) {
+		for (j = baseY; j < baseY + 3; j++) {
+			if (board[j][i] == inputNum) return false;
+		}
+	}
+
+	return true;
 }
 
 void promptInvalid(const int xPos, const int yPos, const int inputNum) {
