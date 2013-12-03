@@ -205,32 +205,201 @@ void dc_drawNumeral(int x, int y, int event) {
 	}
 }
 
-void draw_A(int x, int y, int height) {}
-void draw_B(int x, int y, int height) {}
-void draw_C(int x, int y, int height) {}
-void draw_D(int x, int y, int height) {}
-void draw_E(int x, int y, int height) {}
-void draw_F(int x, int y, int height) {}
-void draw_G(int x, int y, int height) {}
-void draw_H(int x, int y, int height) {}
-void draw_I(int x, int y, int height) {}
-void draw_J(int x, int y, int height) {}
-void draw_K(int x, int y, int height) {}
-void draw_L(int x, int y, int height) {}
-void draw_M(int x, int y, int height) {}
-void draw_N(int x, int y, int height) {}
-void draw_O(int x, int y, int height) {}
-void draw_P(int x, int y, int height) {}
-void draw_Q(int x, int y, int height) {}
-void draw_R(int x, int y, int height) {}
-void draw_S(int x, int y, int height) {}
-void draw_T(int x, int y, int height) {}
-void draw_U(int x, int y, int height) {}
-void draw_V(int x, int y, int height) {}
-void draw_W(int x, int y, int height) {}
-void draw_X(int x, int y, int height) {}
-void draw_Y(int x, int y, int height) {}
-void draw_Z(int x, int y, int height) {}
+void draw_A(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x, y-(height/2));
+	gfx_line(x+(width/2), y+(height/2), x, y-(height/2));
+	gfx_line(x-(width/4), y, x+(width/4), y);
+}
+
+void draw_B(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	draw_arc(x-4*width/3, y-(height/2), width, width/2, - M_PI /2, M_PI/2);
+	draw_arc(x-4*width/3, y, width, width/2, - M_PI /2, M_PI/2);
+}
+
+void draw_C(int x, int y, int height)
+{
+	int width = height/2;
+	draw_arc(x-(width/2),y-(height/2),width, height/2,M_PI/2, 3*M_PI/2);
+}
+
+void draw_D(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	draw_arc(x-4*width/3, y-(height/2), width, width, - M_PI /2, M_PI/2);
+
+}
+
+void draw_E(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x-(width/2), y+(height/2), x+(width/2), y+(height/2));
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y-(height/2));
+	gfx_line(x-(width/2), y, x+(width/2), y);
+}
+
+void draw_F(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y-(height/2));
+	gfx_line(x-(width/2), y, x+(width/2), y);
+}
+
+void draw_G(int x, int y, int height)
+{
+	int width = height/2;
+	draw_arc(x-(width/2),y-(height/2),width, height/2,M_PI/2, 3*M_PI/2);
+	gfx_line(x+(width/2),y+(height/2),x+(width/2), y);
+	gfx_line(x,y,x+(width/2), y);
+}
+
+void draw_H(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x-(width/2), y, x+(width/2), y);
+	gfx_line(x+(width/2), y+(height/2), x+(width/2), y-(height/2));
+}
+
+void draw_I(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x, y+(height/2), x, y-(height/2));
+	gfx_line(x-(width/2), y+(height/2), x+(width/2), y+(height/2));
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y-(height/2));
+}
+
+void draw_J(int x, int y, int height)
+{
+	int width = height/2;
+}
+
+void draw_K(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x-(width/2), y, x+(width/2), y+(height/2));
+	gfx_line(x-(width/2), y, x+(width/2), y-(height/2));
+}
+
+void draw_L(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x-(width/2), y+(height/2), x+(width/2), y+(height/2));
+}
+
+void draw_M(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x+(width/2), y-(height/2), x+(width/2), y+(height/2));
+	gfx_line(x-(width/2), y-(height/2), x, y);
+	gfx_line(x+(width/2), y-(height/2), x, y);
+}
+
+void draw_N(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	gfx_line(x+(width/2), y-(height/2), x+(width/2), y+(height/2));
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y+(height/2));
+}
+
+void draw_O(int x, int y, int height)
+{
+	int width = height/2;
+	draw_arc(x-width,y-(height/2),width/2, height/2,0, 2*M_PI);
+}
+
+void draw_P(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	draw_arc(x-4*width/3, y-(height/2), width, width/2, - M_PI /2, M_PI/2);
+}
+
+void draw_Q(int x, int y, int height)
+{
+	int width = height/2;
+	draw_arc(x-width,y-(height/2),width/2, height/2,0, 2*M_PI);
+}
+
+void draw_R(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y+(height/2), x-(width/2), y-(height/2));
+	draw_arc(x-4*width/3, y-(height/2), width, width/2, - M_PI /2, M_PI/2);
+	gfx_line(x-(width/2), y, x+(width/2), y+(height/2));
+}
+
+void draw_S(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y, x-(width/2), y-(height/2));
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y-(height/2));
+	gfx_line(x-(width/2), y+(height/2), x+(width/2), y+(height/2));
+	gfx_line(x-(width/2), y, x+(width/2), y);
+	gfx_line(x+(width/2), y, x+(width/2), y+(height/2));
+}
+
+void draw_T(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x, y+(height/2), x, y-(height/2));
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y-(height/2));
+}
+
+void draw_U(int x, int y, int height)
+{
+
+}
+
+void draw_V(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y-(height/2), x, y+(height/2));
+	gfx_line(x+(width/2), y-(height/2), x, y+(height/2));
+
+}
+
+void draw_W(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y-(height/2), x-(width/3), y+(height/2));
+	gfx_line(x-(width/3), y+(height/2), x, y-(height/2));
+	gfx_line(x, y-(height/2), x+(width/3), y+(height/2));
+	gfx_line(x+(width/3), y+(height/2), x+(width/2), y-(height/2));
+}
+
+void draw_X(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y+(height/2));
+	gfx_line(x+(width/2), y-(height/2), x-(width/2), y+(height/2));
+}
+void draw_Y(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y-(height/2), x, y);
+	gfx_line(x+(width/2), y-(height/2), x, y);
+	gfx_line(x, y+(height/2), x, y);
+}
+
+void draw_Z(int x, int y, int height)
+{
+	int width = height/2;
+	gfx_line(x-(width/2), y-(height/2), x+(width/2), y-(height/2));
+	gfx_line(x+(width/2), y-(height/2), x-(width/2), y+(height/2));
+	gfx_line(x+(width/2), y+(height/2), x-(width/2), y+(height/2));
+}
 
 void dc_update_height(int newHeight) {
 	globalHeight = newHeight;
