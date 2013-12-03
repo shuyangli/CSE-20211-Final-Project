@@ -221,11 +221,11 @@ void dc_drawNumeral(int x, int y, int event) {
 	}
 }
 
-void dc_update_height(int newHeight) {
+void dc_updateHeight(int newHeight) {
 	globalHeight = newHeight;
 }
 
-int dc_get_height() {
+int dc_getHeight() {
 	return globalHeight;
 }
 
