@@ -205,6 +205,14 @@ void dc_drawNumeral(int x, int y, int event) {
 	}
 }
 
+void dc_update_height(int newHeight) {
+	globalHeight = newHeight;
+}
+
+int dc_get_height() {
+	return globalHeight;
+}
+
 void draw_A(int x, int y, int height)
 {
 	int width = height / 2;
@@ -254,7 +262,7 @@ void draw_F(int x, int y, int height)
 void draw_G(int x, int y, int height)
 {
 	int width = height/2;
-	draw_arc(x,y,width, height/2,M_PI/2, 3*M_PI/2);
+	draw_arc(x, y, width, height/2, M_PI/2, 3*M_PI/2);
 	gfx_line(x + width,y + height,x + width, y);
 	gfx_line(x,y,x + width, y);
 }
@@ -314,8 +322,8 @@ void draw_N(int x, int y, int height)
 
 void draw_O(int x, int y, int height)
 {
-	int width = height/2;
-	draw_arc(x-width,y,width/2, height/2,0, 2*M_PI);
+	int width = height / 2;
+	draw_arc(x, y, width / 2, height / 2, 0, 2 * PI);
 }
 
 void draw_P(int x, int y, int height)
@@ -398,14 +406,6 @@ void draw_Z(int x, int y, int height)
 	gfx_line(x, y, x + width, y);
 	gfx_line(x + width, y, x, y + height);
 	gfx_line(x + width, y + height, x, y + height);
-}
-
-void dc_update_height(int newHeight) {
-	globalHeight = newHeight;
-}
-
-int dc_get_height() {
-	return globalHeight;
 }
 
 void draw_two_digits (int x, int y, int number, int height) {
