@@ -15,6 +15,21 @@
 
 static int globalHeight = 100;
 
+void dc_drawString(int x, int y, char *str) {
+	int width = globalHeight / 2;
+
+	// shadowing the outer x
+	int x = x;
+
+	char *ptr;
+	for (ptr = str; *ptr != '\0'; ptr++) {
+		dc_drawCharacter(x, y, *ptr);
+		x += width;
+		x += width / 10;
+	}
+
+}
+
 void dc_drawCharacter(int x, int y, char c) {
 	int height = globalHeight;
 	

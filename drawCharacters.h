@@ -13,6 +13,7 @@
 
 #define PI 3.14159265
 
+void dc_drawString(int x, int y, char *str);
 void dc_drawCharacter(int x, int y, char c);
 
 void draw_A(int x, int y, int height);
