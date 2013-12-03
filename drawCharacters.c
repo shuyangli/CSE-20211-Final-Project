@@ -6,6 +6,7 @@
 	Shuyang Li
 	for CSE 20211
 	First written on September 23, 2013
+	Updated by Shuyang Li and Adam Goins on December 2, 2013
 */
 
 #include "drawCharacters.h"
@@ -340,17 +341,18 @@ void draw_Q(int x, int y, int height)
 {
 	int width = height / 2;
 	draw_arc(x, y, width / 2, height / 2, 0, 2 * M_PI);
+	gfx_line(x + width / 2, y + height / 2, x + width, y + height);
 }
 
 void draw_R(int x, int y, int height)
 {
 	int width = height / 2;
 	gfx_line(x, y + height, x, y);
-	draw_arc(x-4*width/3, y, width, width/2, - M_PI /2, M_PI/2);
-	gfx_line(x, y, x + width, y + height);
+	draw_arc(x - width, y, width, height / 4, -M_PI / 2, M_PI / 2);
+	gfx_line(x, y + height / 2, x + width, y + height);
 }
 
-        void draw_S(int x, int y, int height)
+void draw_S(int x, int y, int height)
 {
 	int width = height / 2;
 	draw_arc(x, y, width / 2, height / 4, 0, 3*M_PI/2);
@@ -383,10 +385,10 @@ void draw_V(int x, int y, int height)
 void draw_W(int x, int y, int height)
 {
 	int width = height/2;
-	gfx_line(x, y, x+(width/3), y + height);
-	gfx_line(x+(width/3), y + height, x+(width/2), y);
-	gfx_line(x+(width/2), y, x+(2*width/3), y + height);
-	gfx_line(x+(2*width/3), y + height, x + width, y);
+	gfx_line(x, y, x + width / 4, y + height);
+	gfx_line(x + width / 4, y + height, x + width / 2, y + height / 3);
+	gfx_line(x + width / 2, y + height / 3, x + width * 3 / 4, y + height);
+	gfx_line(x + width * 3 / 4, y + height, x + width, y);
 }
 
 void draw_X(int x, int y, int height)
