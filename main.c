@@ -24,6 +24,9 @@
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 600
 
+// macro version for isValidPosition: for possible future optimization
+// #define isValidPosition(__VPPosX__, __VPPosY__) validPositions[__VPPosY__][__VPPosX__]
+
 // notice that the board is arranged as board[y][x]
 
 // typedef for boolean
@@ -75,6 +78,9 @@ void startGame();
 // given a position (x, y) on the board, this functions returns if the position is available for the user to change, i.e. it's not one of the computer-generated numbers
 boolean isValidPosition(const int posX, const int posY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
+// given a position and a move on the board, this function returns if the move is valid according to Sudoku rules
+boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE])
+
 // checks if the game ends
 boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
 
@@ -94,7 +100,7 @@ int main(int argc, char *argv[]) {
 	// generate new random seed
 	srand((unsigned)time(NULL));
 
-	// this function sets up graphics window
+	// sets up graphics window
 	openGraphics();
 
 	// flag to check if user quits the game
@@ -223,35 +229,35 @@ boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositio
 	while (true) {
 		if (isValidPosition(beginX, beginY, validPositions)) break;
 		int tempX = beginX;
-		beginX = (tempX >= BOARD_SIZE) ? 0 : beginX + 1;
-		beginY = (tempX >= BOARD_SIZE) ? beginY + 1 : beginY;
+		beginX = (tempX >= BOARD_SIZE - 1) ? 0 : beginX + 1;
+		beginY = (tempX >= BOARD_SIZE - 1) ? beginY + 1 : beginY;
 	}
 
 	return solveBoardSub(board, beginX, beginY, validPositions);
 }
 
 boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
-
+	
 	// handle end-game case: curY is out of bounds
 	if (curY >= BOARD_SIZE) return true;
-
+	
 	// try solving this position
 	int trial;
 	for (trial = 1; trial <= 9; trial++) {
 		if (isValidMove(curX, curY, trial, board)) {
 			// if it's valid, commit to it
 			board[curY][curX] = trial;
-
+			
 			// generate next x and y
 			int nextX = curX, nextY = curY;
-
+			
 			while (true) {
 				int tempX = nextX;
-				nextX = (tempX >= BOARD_SIZE) ? 0 : tempX + 1;
-				nextY = (tempX >= BOARD_SIZE) ? nextY + 1 : nextY;
-				if (isValidPosition(nextX, nextY, validPositions)) break;
+				nextX = (tempX >= BOARD_SIZE - 1) ? 0 : tempX + 1;
+				nextY = (tempX >= BOARD_SIZE - 1) ? nextY + 1 : nextY;
+				if (isValidPosition(nextX, nextY)) break;
 			}
-
+			
 			// backtracking: if the next steps are all successful, return success
 			if (solveBoardSub(board, nextX, nextY, validPositions)) {
 				return true;
@@ -261,10 +267,11 @@ boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, con
 			}
 		}
 	}
-
+	
 	// if all moves failed for this position, return failure
 	return false;
 }
+
 
 boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 
@@ -294,42 +301,23 @@ boolean isValidPosition(const int posX, const int posY, const boolean validPosit
 }
 
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
-
-	// first check horizontally
-	int curX;
-	for (curX = 0; curX < BOARD_SIZE; curX++) {
-		if (board[yPos][curX] == inputNum) return false;
+	
+	int i;
+	int gridBaseX = (xPos / 3) * 3, gridBaseY = (yPos / 3) * 3;
+	
+	for (i = 0; i < 9; ++i) {
+		
+		// first horizontally
+		if (board[yPos][i] == inputNum) return false;
+		
+		// then vertically
+		if (board[i][xPos] == inputNum) return false;
+		
+		// finally the grid
+		if (board[gridBaseY + (i / 3)][gridBaseX + (i % 3)] == inputNum) return false;
 	}
-
-	// then check vertically
-	int curY;
-	for (curY = 0; curY < BOARD_SIZE; curY++) {
-		if (board[curY][xPos] == inputNum) return false;
-	}
-
-	// finally check the grid
-	return checkGrid(xPos, yPos, inputNum, board);
-}
-
-boolean checkGrid(int x, int y,const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
-
-	int baseX, baseY;
-
-	if (x >= 0 && x < 3) baseX = 0;
-	else if (x >= 3 && x < 6) baseX = 3;
-	else baseX = 6;
-
-	if (y >= 0 && y < 3) baseY = 0;
-	else if (y >= 3 && y < 6) baseY = 3;
-	else baseY = 6;
-
-	int i, j;
-	for (i = baseX; i < baseX + 3; i++) {
-		for (j = baseY; j < baseY + 3; j++) {
-			if (board[j][i] == inputNum) return false;
-		}
-	}
-
+	
+	// if everything passes, return true
 	return true;
 }
 
