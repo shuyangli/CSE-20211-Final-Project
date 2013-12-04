@@ -190,24 +190,24 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 			}
 		}
 
-		// we first generate 11 random cells on the solution board
-		// according to a paper, generating 11 random cells is both efficient and not failure-prone
-		int numLeft = 11;
-
+		// we first generate 18 random cells on the solution board
+		// we need at least one or two in the first row to ensure that it will exit fast
+		int numLeft = 18;
+		
 		while (numLeft > 0) {
 			int nextX = rand() % BOARD_SIZE;
-			int nextY = rand() % BOARD_SIZE;
-
-			if (isValidPosition(nextX, nextY, validPositions)) {
+			int nextY = (numLeft > 16) ? 0 : rand() % BOARD_SIZE;
+			
+			if (isValidPosition(nextX, nextY)) {
 				// if the position is valid, generate a random number at that position
 				// note it's 1 ~ 9, not 0 ~ 8
 				int num = rand() % 9 + 1;
-
+				
 				// if that number is valid, update accordingly
 				if (isValidMove(nextX, nextY, num, solutionBoard)) {
 					solutionBoard[nextY][nextX] = num;
 					validPositions[nextY][nextX] = false;
-
+					
 					// update numbers left
 					numLeft--;
 				}
