@@ -32,6 +32,9 @@
 // typedef for boolean
 typedef enum { false = 0, true } boolean;
 
+// typedef for hardness
+typedef enum { easy, medium, hard } hardness;
+
 // global flag for debug
 boolean debug = false;
 
@@ -51,7 +54,7 @@ void showGameMenu(int *userChoice);
 void showInstructions();
 
 // generates the solution board, and removes an appropriate number of numbers to generate the puzzle board, and saves the valid positions in the valid positions board
-void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h);
 
 // gets the user input: a click at a position, and an input number
 // need to handle the case where the user clicks multiple times
@@ -152,7 +155,11 @@ void startGame() {
 	boolean validPositions[BOARD_SIZE][BOARD_SIZE] = { 0 };
 	boolean userGivesUp = false;
 
-	generateBoard(solutionBoard, puzzleBoard, validPositions);
+	hardness h;
+
+	// TODO: prompt user to select hardness
+
+	generateBoard(solutionBoard, puzzleBoard, validPositions, h);
 
 	while (!isGameEnd(puzzleBoard) && !userGivesUp) {
 		printBoard(puzzleBoard);
@@ -173,7 +180,7 @@ void startGame() {
 	}
 }
 
-void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
+void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h) {
 
 	// there might be a chance for the boards to fail, so we need a flag
 	boolean finished = false;
@@ -191,7 +198,6 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 		}
 
 		// we first generate 18 random cells on the solution board
-		// we need at least one or two in the first row to ensure that it will exit fast
 		int numLeft = 18;
 		
 		while (numLeft > 0) {
@@ -215,9 +221,20 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 		}
 
 		// after generating the valid positions, solve the board
-		// if it's solvable, then finished 
+		// if it's solvable, then it's a finished solution board 
 		if (solveBoard(solutionBoard, validPositions)) finished = true;
 	}
+
+	// after solving the board, we update the puzzle board and valid positions to fill all positions
+	int i, j;
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			puzzleBoard[i][j] = solutionBoard[i][j];
+			validPositions[i][j] = false;
+		}
+	}
+
+	// then we dig holes in the boards, 
 
 }
 
