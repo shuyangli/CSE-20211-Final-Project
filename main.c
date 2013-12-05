@@ -21,8 +21,10 @@
 #include "drawCharacters.h"
 
 #define BOARD_SIZE 9
+#define BOX_LENGTH 55.56
+#define TOP_LEFT 50
 #define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 600
+#define WINDOW_HEIGHT 700
 
 // macro version for isValidPosition: for possible future optimization
 // #define isValidPosition(__VPPosX__, __VPPosY__) validPositions[__VPPosY__][__VPPosX__]
@@ -308,7 +310,7 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
-	draw_grid(start, start, 9*box_length, box_length);
+	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
 }
 
 void getUserInput(int *xPos, int *yPos, int *inputNum) {
