@@ -39,9 +39,6 @@ typedef enum { false = 0, true } boolean;
 // typedef for hardness
 typedef enum { easy, medium, hard } hardness;
 
-// global flag for debug
-boolean debug = false;
-
 /*
    ==========================================================
    function prototypes to be implemented are all written here
@@ -397,18 +394,6 @@ boolean isValidMove(const int xPos, const int yPos, const int inputNum, const in
 	
 	// if everything passes, return true
 	return true;
-}
-
-void promptInvalid(const int xPos, const int yPos, const int inputNum) {
-
-}
-
-void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY) {
-
-}
-
-void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY) {
-
 }
 
 void draw_grid(double x, double y, double length, double box_length)
