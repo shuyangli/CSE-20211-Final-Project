@@ -1,26 +1,18 @@
-drawCharTest: drawCharacters.c
-	gcc drawTest.c drawCharacters.c gfx.c -o drawCharTest -I/usr/X11R6/include -L/usr/X11R6/lib -lX11 -lm
+all: sudoku
 
+$(LIN_F) = -lX11 -lm
 
-# all: sudoku
+sudoku: main.o gfx.o drawCharacters.o
+	gcc main.o gfx.o drawCharacters.o -o sudoku $(LIN_F)
 
-# sudoku: main.o gfx.o drawCharacters.o drawNumeral.o
-# 	gcc main.o gfx.o drawCharacters.o drawNumeral.o -o sudoku -lX11 -lm
+main.o: main.c
+	gcc -c main.c $(LIN_F)
 
-# main.o: main.c
-# 	gcc -c main.c -lm
+gfx.o: gfx.c
+	gcc -c gfx.c $(LIN_F)
 
-# gfx.o: gfx.c
-# 	gcc -c gfx.c -lX11 -lm
+drawCharacters.o: drawCharacters.c
+	gcc -c drawCharacters.c $(LIN_F)
 
-# drawCharacters.o: drawCharacters.c
-# 	gcc -c drawCharacters.c -lm
-
-# drawNumeral.o: drawNumeral.c
-# 	gcc -c drawNumeral.c -lm
-
-# drawTest: drawTest.c
-# 	gcc drawTest.c gfx.c drawNumeral.c drawCharacters.c -o drawTest -I/usr/X11R6/include -L/usr/X11R6/lib -lX11 -lm
-
-# clean:
-# 	rm *.o
+clean:
+	rm *.o
