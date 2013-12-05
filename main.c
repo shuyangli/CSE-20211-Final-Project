@@ -25,9 +25,11 @@
 #define TOP_LEFT 50
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 700
+#define CHAR_SIZE 35
 
 // macro version for isValidPosition: for possible future optimization
-// #define isValidPosition(__VPPosX__, __VPPosY__) validPositions[__VPPosY__][__VPPosX__]
+// given a position (x, y) on the board, this macro returns if the position is available for the user to change, i.e. it's not one of the computer-generated numbers
+#define isValidPosition(__VPPosX__, __VPPosY__) validPositions[__VPPosY__][__VPPosX__]
 
 // notice that the board is arranged as board[y][x]
 
@@ -50,13 +52,10 @@ boolean debug = false;
 void openGraphics();
 
 // show game menu and get user input
-void showGameMenu(int *userChoice);
+void showGameMenu(int *userChoice, hardness &h);
 
 // displays instructions, and returns as the user prompts
 void showInstructions();
-
-// generates the solution board, and removes an appropriate number of numbers to generate the puzzle board, and saves the valid positions in the valid positions board
-void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h);
 
 // gets the user input: a click at a position, and an input number
 // need to handle the case where the user clicks multiple times
@@ -68,8 +67,6 @@ void screenToIndex(const int screenX, const int screenY, int *indexX, int *index
 // helper function to translate from board index to screen location
 void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY);
 
-boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board);
-
 
 /*
    ==========================================
@@ -78,10 +75,10 @@ boolean isValidMove(const int xPos, const int yPos, const int inputNum, const in
 */
 
 // sets up a new game of sudoku, and returns when the current game ends
-void startGame();
+void startGame(hardness h);
 
-// given a position (x, y) on the board, this functions returns if the position is available for the user to change, i.e. it's not one of the computer-generated numbers
-boolean isValidPosition(const int posX, const int posY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+// generates the solution board, and removes an appropriate number of numbers to generate the puzzle board, and saves the valid positions in the valid positions board
+void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h);
 
 // given a position and a move on the board, this function returns if the move is valid according to Sudoku rules
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE])
@@ -94,7 +91,12 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
 boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
+// functions for drawing the game grid on screen
 void draw_grid(double x, double y, double length, double box_length);
+void draw_rect(int x, int y, double width, double height);
+
+// function that draws buttons inside the actual game view
+void drawGameButtons();
 
 /*
    =============
@@ -121,13 +123,14 @@ int main(int argc, char *argv[]) {
 
 		// show game menu and get user choice
 		int userChoice = 0;
-		showGameMenu(&userChoice);
+		hardness h;
+		showGameMenu(&userChoice, &h);
 
 		switch (userChoice) {
 
 			// if user chooses to start game
 			case 1:
-				startGame();
+				startGame(h);
 				break;
 
 			// if user chooses to show instructions
@@ -151,7 +154,12 @@ int main(int argc, char *argv[]) {
    =======================
 */
 
-void startGame() {
+void openGraphics() {
+	gfx_open(WINDOW_W, WINDOW_H, "Simple Sudoku");
+	dc_updateHeight(CHAR_SIZE);
+}
+
+void startGame(hardness h) {
 
 	// variable declaration for game board
 	int solutionBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };
@@ -159,17 +167,13 @@ void startGame() {
 	boolean validPositions[BOARD_SIZE][BOARD_SIZE] = { 0 };
 	boolean userGivesUp = false;
 
-	hardness h;
-
-	// TODO: prompt user to select hardness
-
 	generateBoard(solutionBoard, puzzleBoard, validPositions, h);
 
 	while (!isGameEnd(puzzleBoard) && !userGivesUp) {
 		printBoard(puzzleBoard);
 
 		int xPos, yPos, inputNum;
-		getUserInput(&xPos, &yPos, &inputNum);
+		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp);
 
 		if (isValidPosition(xPos, yPos, validPositions) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
 			puzzleBoard[yPos][xPos] = inputNum;
@@ -229,17 +233,40 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 		if (solveBoard(solutionBoard, validPositions)) finished = true;
 	}
 
-	// after solving the board, we update the puzzle board and valid positions to fill all positions
-	int i, j;
-	for (i = 0; i < BOARD_SIZE; i++) {
-		for (j = 0; j < BOARD_SIZE; j++) {
-			puzzleBoard[i][j] = solutionBoard[i][j];
-			validPositions[i][j] = false;
+	// after solving the board, we update the puzzle board to be filled
+	// we update valid positions to be all "open", since we'll keep the appropriate numbers
+	int y, x;
+	for (y = 0; y < BOARD_SIZE; y++) {
+		for (x = 0; x < BOARD_SIZE; x++) {
+			puzzleBoard[y][x] = solutionBoard[y][x];
+			validPositions[y][x] = true;
 		}
 	}
 
-	// then we dig holes in the boards, 
+	// then we dig holes in the boards
+	// easy boards have 45 numbers, medium boards have 40, and hard ones have 35
+	int numsToKeep = (h == easy) ? 45 : (h == medium) ? 40 : 35;
 
+	while (numsToKeep > 0) {
+		int nextX = rand() % BOARD_SIZE;
+		int nextY = rand() % BOARD_SIZE;
+
+		if (isValidPosition(nextX, nextY)) {
+			// if the position is open, mark it as "invalid"
+			validPositions[nextY][nextX] = false;
+			
+			// update numbers left
+			numsToKeep--;
+		}
+	}
+
+	// dig the actual holes
+	for (y = 0; y < BOARD_SIZE; y++) {
+		for (x = 0; x < BOARD_SIZE; x++) {
+			if (isValidPosition(x, y))
+				puzzleBoard[y][x] = 0;
+		}
+	}
 }
 
 boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
@@ -317,10 +344,12 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 void getUserInput(int *xPos, int *yPos, int *inputNum) {
 
 	// to be implemented
-}
+	boolean selectedGrid = false, inputedNumber = false;
 
-boolean isValidPosition(const int posX, const int posY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
-	return validPositions[posY][posX];
+	// while the user has not finished the input process
+	while (!(selectedGrid && inputedNumber)) {
+
+	}
 }
 
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
@@ -394,6 +423,7 @@ void draw_rect(int x, int y, double width, double height)
 	gfx_line(x+width, y+height, x, y+height);
 	gfx_line(x, y+height, x, y);
 }
+
 void drawGameButtons()
 {
 	draw_rect(100, WINDOW_HEIGHT-100, 150, 50);
