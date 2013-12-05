@@ -95,7 +95,7 @@ void indexToScreen(const int indexX, const int indexY, int *screenX, int *screen
 
 void drawGameMenu();
 
-void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPositions[BOARD_SIZE][BOARD_SIZE]) {
+void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPositions[BOARD_SIZE][BOARD_SIZE]);
 
 /*
    =============
