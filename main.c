@@ -429,3 +429,8 @@ void drawGameButtons()
 	draw_rect(100, WINDOW_HEIGHT-100, 150, 50);
 	draw_rect(350, WINDOW_HEIGHT-100, 150, 50);
 }
+
+void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY) {
+	*screenX = TOP_LEFT + 19.28 + indexX * BOX_LENGTH;
+	*screenY = TOP_LEFT + 10.28 + indexY * BOX_LENGTH;
+}
