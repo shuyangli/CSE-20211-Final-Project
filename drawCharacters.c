@@ -32,6 +32,11 @@ void dc_drawString(int x, int y, char *str) {
 
 void dc_drawCharacter(int x, int y, char c) {
 	int height = globalHeight;
+
+	if (c >= 0 && c <= 9) {
+		dc_drawNumeral(x, y, (int)c);
+		return;
+	}
 	
 	switch (c) {
 		case 'a':
