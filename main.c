@@ -311,6 +311,7 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
+	drawGameButtons();
 }
 
 void getUserInput(int *xPos, int *yPos, int *inputNum) {
@@ -384,4 +385,17 @@ void draw_grid(double x, double y, double length, double box_length)
 		gfx_line(x,y,x+length, y);
 		y += box_length;
 	}
+}
+
+void draw_rect(int x, int y, double width, double height)
+{
+	gfx_line(x,y, x+width, y);
+	gfx_line(x+width, y, x+width, y+height);
+	gfx_line(x+width, y+height, x, y+height);
+	gfx_line(x, y+height, x, y);
+}
+void drawGameButtons()
+{
+	draw_rect(100, WINDOW_HEIGHT-100, 150, 50);
+	draw_rect(350, WINDOW_HEIGHT-100, 150, 50);
 }
