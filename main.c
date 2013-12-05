@@ -48,9 +48,6 @@ boolean debug = false;
    ==========================================================
 */
 
-// sets up graphics window
-void openGraphics();
-
 // show game menu and get user input
 void showGameMenu(int *userChoice, hardness &h);
 
@@ -66,6 +63,9 @@ void getUserInput(int *xPos, int *yPos, int *inputNum);
    completed function prototypes are all here
    ==========================================
 */
+
+// sets up graphics window
+void openGraphics();
 
 // sets up a new game of sudoku, and returns when the current game ends
 void startGame(hardness h);
