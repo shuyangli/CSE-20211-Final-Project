@@ -336,16 +336,19 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPo
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
 	drawGameButtons();
 
-	int x, y;
+	int x, y, sx, sy;
 	for (x = 0; x < BOARD_SIZE; x++) {
 		for (y = 0; y < BOARD_SIZE; y++) {
-			// if puzzleboard[y][x] != 0
-			// if validPositions[y][x] == true, it's one of the numbers that the user fills in
-			// print the number at the appropriate position
-
-			// if validPositions[y][x] == false, it's one of the numbers that the program generated
-			// print the number at the appropriate position
-
+			if (puzzleBoard[y][x] != 0){
+				if (validPositions[y][x] == true){
+					gfx_color(0,255, 255);
+				}
+				else {
+					gfx_color(255,255,255);
+				}
+				indexToScreen(x,y,sx, sy);
+				drawCharacters(sx, sy, puzzleBoard[y][x]);
+			}
 		}
 	}
 }
