@@ -92,6 +92,8 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
 boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
+void draw_grid(double x, double y, double length, double box_length);
+
 /*
    =============
    main function
@@ -306,6 +308,7 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
+	draw_grid(start, start, 9*box_length, box_length);
 }
 
 void getUserInput(int *xPos, int *yPos, int *inputNum) {
@@ -348,4 +351,35 @@ void screenToIndex(const int screenX, const int screenY, int *indexX, int *index
 
 void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY) {
 
+}
+
+void draw_grid(double x, double y, double length, double box_length)
+{
+	int i,j;
+	double k = x;
+	for(i = 0; i < 10; i++)
+	{
+		if(i == 0|| i == 3|| i == 6||i == 9)
+		{
+			gfx_line(x-1,y, x-1,y+length);
+			gfx_line(x+1,y, x+1,y+length);
+			gfx_line(x-2,y, x-2,y+length);
+			gfx_line(x+2,y, x+2,y+length);
+		}
+		gfx_line(x,y,x, y+length);
+		x += box_length;
+	}
+	x = k;
+	for(j = 0; j < 10; j++)
+	{
+		if(j == 0 || j == 3|| j == 6||j == 9)
+		{
+			gfx_line(x,y-1, x+length,y-1);
+			gfx_line(x,y+1, x+length,y+1);
+			gfx_line(x,y-2, x+length,y-2);
+			gfx_line(x,y+2, x+length,y+2);
+		}
+		gfx_line(x,y,x+length, y);
+		y += box_length;
+	}
 }
