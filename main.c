@@ -46,7 +46,7 @@ typedef enum { easy, medium, hard } hardness;
 */
 
 // show game menu and get user input
-void showGameMenu(int *userChoice, hardness &h);
+void showGameMenu(int *userChoice, hardness *h);
 
 // displays instructions, and returns as the user prompts
 void showInstructions();
@@ -93,6 +93,7 @@ void screenToIndex(const int screenX, const int screenY, int *indexX, int *index
 // helper function to translate from board index to screen location
 void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY);
 
+void drawGameMenu();
 
 /*
    =============
@@ -451,4 +452,35 @@ void screenToIndex(const int screenX, const int screenY, int *indexX, int *index
 	*indexY = (int)floor((screenY - 10.28) / BOX_LENGTH);
 	if ((*indexX) < 0 || (*indexX) > 8) *indexX = -1;
 	if ((*indexY) < 0 || (*indexY) > 8) *indexY = -1;
+}
+
+void showGameMenu(int *userChoice, hardness *h) {
+	drawGameMenu();
+
+	
+}
+
+void drawGameMenu() {
+	draw_rect(50,50, 500, 100); //"SUDOKU"
+	draw_rect(150, 200, 300, 100); //"PRESS P TO PLAY"
+	draw_rect(150, 350, 300, 100); //"PRESS I FOR INSTRUCTIONS"
+	draw_rect(150, 500, 300, 100); //"PRESS Q TO QUIT"
+	//draw_rect(0, height-50, width, 50); // Names
+	gfx_color(255,0,255);
+	dc_updateHeight(75);
+	dc_drawString(172,60,"SUDOKU");
+	gfx_color(255,128,0);
+	dc_drawString(174,62,"SUDOKU");
+	gfx_color(255,255,0);
+	dc_drawString(176,64,"SUDOKU");
+
+	dc_updateHeight(40);
+	gfx_color(51,255,255);
+	dc_drawString(257,230,"PLAY");
+	dc_drawString(257,530,"QUIT");
+	dc_drawString(158, 380,"INSTRUCTIONS");
+	
+	gfx_color(255,255,255);
+	dc_updateHeight(25);
+	dc_drawString(125,645,"SHUYANG LI AND ADAM GOINS");
 }
