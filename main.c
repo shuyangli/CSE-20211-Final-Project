@@ -61,13 +61,6 @@ void showInstructions();
 // need to handle the case where the user clicks multiple times
 void getUserInput(int *xPos, int *yPos, int *inputNum);
 
-// helper function to translate from screen location to board index
-void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY);
-
-// helper function to translate from board index to screen location
-void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY);
-
-
 /*
    ==========================================
    completed function prototypes are all here
@@ -97,6 +90,13 @@ void draw_rect(int x, int y, double width, double height);
 
 // function that draws buttons inside the actual game view
 void drawGameButtons();
+
+// helper function to translate from screen location to board index
+void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY);
+
+// helper function to translate from board index to screen location
+void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY);
+
 
 /*
    =============
@@ -433,4 +433,9 @@ void drawGameButtons()
 void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY) {
 	*screenX = TOP_LEFT + 19.28 + indexX * BOX_LENGTH;
 	*screenY = TOP_LEFT + 10.28 + indexY * BOX_LENGTH;
+}
+
+void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY) {
+	*indexX = (int)floor((screenX - 19.28) / BOX_LENGTH);
+	*indexY = (int)floor((screenY - 10.28) / BOX_LENGTH);
 }
