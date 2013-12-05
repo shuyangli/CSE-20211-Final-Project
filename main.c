@@ -95,6 +95,8 @@ void indexToScreen(const int indexX, const int indexY, int *screenX, int *screen
 
 void drawGameMenu();
 
+void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPositions[BOARD_SIZE][BOARD_SIZE]) {
+
 /*
    =============
    main function
@@ -328,11 +330,24 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	}
 }
 
-void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
+void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
 	drawGameButtons();
+
+	int x, y;
+	for (x = 0; x < BOARD_SIZE; x++) {
+		for (y = 0; y < BOARD_SIZE; y++) {
+			// if puzzleboard[y][x] != 0
+			// if validPositions[y][x] == true, it's one of the numbers that the user fills in
+			// print the number at the appropriate position
+
+			// if validPositions[y][x] == false, it's one of the numbers that the program generated
+			// print the number at the appropriate position
+
+		}
+	}
 }
 
 void getUserInput(int *xIndex, int *yIndex, int *inputNum) {
