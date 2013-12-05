@@ -25,7 +25,7 @@ void dc_drawString(int x, int y, char *str) {
 	for (ptr = str; *ptr != '\0'; ptr++) {
 		dc_drawCharacter(locx, y, *ptr);
 		locx += width;
-		locx += width / 10;
+		locx += width / 5;
 	}
 
 }
