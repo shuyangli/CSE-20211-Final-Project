@@ -54,10 +54,6 @@ void showGameMenu(int *userChoice, hardness &h);
 // displays instructions, and returns as the user prompts
 void showInstructions();
 
-// gets the user input: a click at a position, and an input number
-// need to handle the case where the user clicks multiple times
-void getUserInput(int *xPos, int *yPos, int *inputNum);
-
 /*
    ==========================================
    completed function prototypes are all here
@@ -75,6 +71,9 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 
 // given a position and a move on the board, this function returns if the move is valid according to Sudoku rules
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE])
+
+// gets the user input: an index on board, and an input number
+void getUserInput(int *xIndex, int *yIndex, int *inputNum);
 
 // checks if the game ends
 boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
@@ -320,18 +319,15 @@ boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, con
 	return false;
 }
 
-
 boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 
 	int i, j;
 	int numBlank = 0;
 	for (i = 0; i < BOARD_SIZE; i++) {
 		for (j = 0; j < BOARD_SIZE; j++) {
-			if (puzzleBoard[i][j] == 0) numBlank++;
+			if (puzzleBoard[i][j] == 0) break;
 		}
 	}
-
-	return (numBlank == 0);
 }
 
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
@@ -341,14 +337,44 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	drawGameButtons();
 }
 
-void getUserInput(int *xPos, int *yPos, int *inputNum) {
+void getUserInput(int *xIndex, int *yIndex, int *inputNum) {
 
-	// to be implemented
 	boolean selectedGrid = false, inputedNumber = false;
 
 	// while the user has not finished the input process
 	while (!(selectedGrid && inputedNumber)) {
+		char event = gfx_wait();
+		int clickX = gfx_xpos();
+		int clickY = gfx_ypos();
 
+		switch (event) {
+			case 1:
+			screenToIndex(clickX, clickY, xIndex, yIndex);
+			if (*xIndex != -1 && *yIndex != -1) {
+				selectedGrid = true;
+				// possibly highlight the grid?
+			}
+			break;
+
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			if (selectedGrid) {
+				*inputNum = event - '0';
+				inputedNumber = true;
+			}
+			break;
+
+			default:
+			// default case here just in case something comes up later on
+			break;
+		}
 	}
 }
 
@@ -438,4 +464,6 @@ void indexToScreen(const int indexX, const int indexY, int *screenX, int *screen
 void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY) {
 	*indexX = (int)floor((screenX - 19.28) / BOX_LENGTH);
 	*indexY = (int)floor((screenY - 10.28) / BOX_LENGTH);
+	if ((*indexX) < 0 || (*indexX) > 8) *indexX = -1;
+	if ((*indexY) < 0 || (*indexY) > 8) *indexY = -1;
 }
