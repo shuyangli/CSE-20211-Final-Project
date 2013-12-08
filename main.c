@@ -95,6 +95,9 @@ void drawGameMenu();
 
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
+void promptInvalid(int xPos, int yPos, const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+
+
 /*
    =============
    main function
@@ -177,7 +180,7 @@ void startGame(hardness h) {
 		if (isValidPosition(xPos, yPos) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
 			puzzleBoard[yPos][xPos] = inputNum;
 		} else {
-			promptInvalid(xPos, yPos, inputNum);
+			promptInvalid(xPos, yPos, puzzleBoard, validPositions);
 		}
 	}
 
@@ -456,6 +459,14 @@ void draw_rect(int x, int y, double width, double height)
 	gfx_line(x, y+height, x, y);
 }
 
+void draw_filled_rect(int x, int y, double width, double height) {
+	double i;
+
+	for (i = y; i <= y + height; i += 0.05) {
+		gfx_line(x, y, x + width, y + height);
+	}
+}
+
 void drawGameButtons()
 {
 	draw_rect(100, WINDOW_HEIGHT-100, 150, 50);
@@ -519,6 +530,14 @@ void showGameMenu(int *userChoice, hardness *h) {
 			}
 		}
 	}
+}
+
+void promptInvalid(int xPos, int yPos, const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
+	gfx_color(255, 0, 0);
+	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
+	sleep(0.5);
+	gfx_clear();
+	printBoard(puzzleBoard, validPositions);
 }
 
 void drawGameMenu() {
