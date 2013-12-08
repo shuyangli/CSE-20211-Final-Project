@@ -11,10 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "gfx.h"
-
-// this library is for drawing numbers in the graphics window
-#include "drawNumeral.h"
 
 // this library is for drawing characters in the graphics window
 // it's incomplete implementation as of November 21, 2013
@@ -67,10 +65,10 @@ void startGame(hardness h);
 void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h);
 
 // given a position and a move on the board, this function returns if the move is valid according to Sudoku rules
-boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE])
+boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]);
 
 // gets the user input: an index on board, and an input number
-void getUserInput(int *xIndex, int *yIndex, int *inputNum);
+void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp);
 
 // checks if the game ends
 boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
@@ -95,7 +93,7 @@ void indexToScreen(const int indexX, const int indexY, int *screenX, int *screen
 
 void drawGameMenu();
 
-void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPositions[BOARD_SIZE][BOARD_SIZE]);
+void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
 /*
    =============
@@ -154,7 +152,7 @@ int main(int argc, char *argv[]) {
 */
 
 void openGraphics() {
-	gfx_open(WINDOW_W, WINDOW_H, "Simple Sudoku");
+	gfx_open(WINDOW_WIDTH, WINDOW_HEIGHT, "Simple Sudoku");
 	dc_updateHeight(CHAR_SIZE);
 }
 
@@ -169,12 +167,12 @@ void startGame(hardness h) {
 	generateBoard(solutionBoard, puzzleBoard, validPositions, h);
 
 	while (!isGameEnd(puzzleBoard) && !userGivesUp) {
-		printBoard(puzzleBoard);
+		printBoard(puzzleBoard, validPositions);
 
 		int xPos, yPos, inputNum;
 		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp);
 
-		if (isValidPosition(xPos, yPos, validPositions) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
+		if (isValidPosition(xPos, yPos) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
 			puzzleBoard[yPos][xPos] = inputNum;
 		} else {
 			promptInvalid(xPos, yPos, inputNum);
@@ -182,7 +180,7 @@ void startGame(hardness h) {
 	}
 
 	if (userGivesUp) {
-		printBoard(solutionBoard);
+		printBoard(solutionBoard, validPositions);
 		// wait for user to continue
 	}
 }
@@ -274,7 +272,7 @@ boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositio
 	// get the first valid position
 	int beginX = 0, beginY = 0;
 	while (true) {
-		if (isValidPosition(beginX, beginY, validPositions)) break;
+		if (isValidPosition(beginX, beginY)) break;
 		int tempX = beginX;
 		beginX = (tempX >= BOARD_SIZE - 1) ? 0 : beginX + 1;
 		beginY = (tempX >= BOARD_SIZE - 1) ? beginY + 1 : beginY;
@@ -325,12 +323,14 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	int numBlank = 0;
 	for (i = 0; i < BOARD_SIZE; i++) {
 		for (j = 0; j < BOARD_SIZE; j++) {
-			if (puzzleBoard[i][j] == 0) break;
+			if (puzzleBoard[i][j] == 0) return false;
 		}
 	}
+
+	return true;
 }
 
-void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPositions[BOARD_SIZE][BOARD_SIZE]) {
+void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
@@ -340,20 +340,20 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const int validPo
 	for (x = 0; x < BOARD_SIZE; x++) {
 		for (y = 0; y < BOARD_SIZE; y++) {
 			if (puzzleBoard[y][x] != 0){
-				if (validPositions[y][x] == true){
+				if (isValidPosition(x, y)){
 					gfx_color(0,255, 255);
 				}
 				else {
 					gfx_color(255,255,255);
 				}
-				indexToScreen(x,y,sx, sy);
-				drawCharacters(sx, sy, puzzleBoard[y][x]);
+				indexToScreen(x,y, &sx, &sy);
+				dc_drawCharacter(sx, sy, puzzleBoard[y][x]);
 			}
 		}
 	}
 }
 
-void getUserInput(int *xIndex, int *yIndex, int *inputNum) {
+void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp) {
 
 	boolean selectedGrid = false, inputedNumber = false;
 
