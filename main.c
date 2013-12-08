@@ -458,6 +458,11 @@ void drawGameButtons()
 {
 	draw_rect(100, WINDOW_HEIGHT-100, 150, 50);
 	draw_rect(350, WINDOW_HEIGHT-100, 150, 50);
+	gfx_color(51, 255, 255);
+	dc_updateHeight(25);
+	dc_drawString(142, 615, "SOLVE");
+	dc_drawString(400, 615, "QUIT");
+
 }
 
 void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY) {
@@ -480,7 +485,9 @@ void showGameMenu(int *userChoice, hardness *h) {
 
 void drawGameMenu() {
 	draw_rect(50,50, 500, 100); //"SUDOKU"
-	draw_rect(150, 200, 300, 100); //"PRESS P TO PLAY"
+	draw_rect(50, 200, 150, 100); //"EASY"
+	draw_rect(225, 200, 150, 100); //"MEDIUM"
+	draw_rect(400, 200, 150, 100); //"HARD"
 	draw_rect(150, 350, 300, 100); //"PRESS I FOR INSTRUCTIONS"
 	draw_rect(150, 500, 300, 100); //"PRESS Q TO QUIT"
 	//draw_rect(0, height-50, width, 50); // Names
@@ -493,8 +500,15 @@ void drawGameMenu() {
 	dc_drawString(176,64,"SUDOKU");
 
 	dc_updateHeight(40);
+	gfx_color(0,255,0);
+	dc_drawString(80,230,"EASY");
+	gfx_color(255,0,0);
+	dc_drawString(430,230,"HARD");
+	gfx_color(255,255,0);
+	dc_updateHeight(35);
+	dc_drawString(243,230,"MEDIUM");
+	dc_updateHeight(40);
 	gfx_color(51,255,255);
-	dc_drawString(257,230,"PLAY");
 	dc_drawString(257,530,"QUIT");
 	dc_drawString(158, 380,"INSTRUCTIONS");
 	
