@@ -96,7 +96,7 @@ void drawGameMenu();
 
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
-void promptInvalid(int xPos, int yPos, const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+void promptInvalid(int xPos, int yPos);
 
 
 /*
@@ -181,7 +181,7 @@ void startGame(hardness h) {
 		if (isValidPosition(xPos, yPos) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
 			puzzleBoard[yPos][xPos] = inputNum;
 		} else {
-			promptInvalid(xPos, yPos, puzzleBoard, validPositions);
+			promptInvalid(xPos, yPos);
 		}
 	}
 
@@ -375,6 +375,8 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp)
 			if (*xIndex != -1 && *yIndex != -1) {
 				selectedGrid = true;
 				// possibly highlight the grid?
+
+
 			}
 			break;
 
@@ -533,12 +535,15 @@ void showGameMenu(int *userChoice, hardness *h) {
 	}
 }
 
-void promptInvalid(int xPos, int yPos, const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
+void promptInvalid(int xIndex, int yIndex) {
+	int xPos, yPos;
+	indexToScreen(xIndex, yIndex, &xPos, &yPos);
 	gfx_color(255, 0, 0);
 	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
 	usleep(5000);
-	gfx_clear();
-	printBoard(puzzleBoard, validPositions);
+	gfx_color(0, 0, 0);
+	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
+	gfx_color(255, 255, 255);
 }
 
 void drawGameMenu() {
