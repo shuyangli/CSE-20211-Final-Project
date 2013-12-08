@@ -38,6 +38,8 @@ typedef enum { false = 0, true } boolean;
 // typedef for hardness
 typedef enum { easy, medium, hard } hardness;
 
+boolean debug = true;
+
 /*
    ==========================================================
    function prototypes to be implemented are all written here
@@ -67,6 +69,8 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 
 // given a position and a move on the board, this function returns if the move is valid according to Sudoku rules
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]);
+
+boolean isCorrectMove(const int xPos, const int yPos, const int inputNum, const int solutionBoard[BOARD_SIZE][BOARD_SIZE]);
 
 // gets the user input: an index on board, and an input number
 void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp);
@@ -162,8 +166,6 @@ void openGraphics() {
 
 void startGame(hardness h) {
 
-	gfx_clear();
-
 	// variable declaration for game board
 	int solutionBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };
 	int puzzleBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };
@@ -173,12 +175,17 @@ void startGame(hardness h) {
 	generateBoard(solutionBoard, puzzleBoard, validPositions, h);
 
 	while (!isGameEnd(puzzleBoard) && !userGivesUp) {
+		gfx_clear();
 		printBoard(puzzleBoard, validPositions);
 
 		int xPos, yPos, inputNum;
 		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp);
 
-		if (isValidPosition(xPos, yPos) && isValidMove(xPos, yPos, inputNum, puzzleBoard)) {
+		if (debug) {
+			printf("out of getUserInput\n");
+		}
+
+		if (isValidPosition(xPos, yPos) && isCorrectMove(xPos, yPos, inputNum, solutionBoard)) {
 			puzzleBoard[yPos][xPos] = inputNum;
 		} else {
 			promptInvalid(xPos, yPos);
@@ -339,6 +346,7 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// to be implemented
+	gfx_color(255, 255, 255);
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
 	drawGameButtons();
 
@@ -372,9 +380,18 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp)
 		switch (event) {
 			case 1:
 			screenToIndex(clickX, clickY, xIndex, yIndex);
+
+				if (debug) {
+					printf("x: %d, y: %d\n", *xIndex, *yIndex);
+				}
+
 			if (*xIndex != -1 && *yIndex != -1) {
 				selectedGrid = true;
 				// possibly highlight the grid?
+
+				if (debug) {
+					printf("selected grid\n");
+				}
 
 
 			}
@@ -391,6 +408,11 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp)
 			case '9':
 			if (selectedGrid) {
 				*inputNum = event - '0';
+
+				if (debug) {
+					printf("num: %d\n", *inputNum);
+				}
+
 				inputedNumber = true;
 			}
 			break;
@@ -403,7 +425,6 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp)
 }
 
 boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
-	
 	int i;
 	int gridBaseX = (xPos / 3) * 3, gridBaseY = (yPos / 3) * 3;
 	
@@ -421,6 +442,10 @@ boolean isValidMove(const int xPos, const int yPos, const int inputNum, const in
 	
 	// if everything passes, return true
 	return true;
+}
+
+boolean isCorrectMove(const int xPos, const int yPos, const int inputNum, const int solutionBoard[BOARD_SIZE][BOARD_SIZE]) {
+	return (solutionBoard[yPos][xPos] == inputNum);
 }
 
 void draw_grid(double x, double y, double length, double box_length)
@@ -487,8 +512,8 @@ void indexToScreen(const int indexX, const int indexY, int *screenX, int *screen
 }
 
 void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY) {
-	*indexX = (int)floor((screenX - 19.28) / BOX_LENGTH);
-	*indexY = (int)floor((screenY - 10.28) / BOX_LENGTH);
+	*indexX = (int)floor((screenX - BOX_LENGTH) / BOX_LENGTH);
+	*indexY = (int)floor((screenY - BOX_LENGTH) / BOX_LENGTH);
 	if ((*indexX) < 0 || (*indexX) > 8) *indexX = -1;
 	if ((*indexY) < 0 || (*indexY) > 8) *indexY = -1;
 }
