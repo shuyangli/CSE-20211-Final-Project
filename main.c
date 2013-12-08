@@ -158,6 +158,8 @@ void openGraphics() {
 
 void startGame(hardness h) {
 
+	gfx_clear();
+
 	// variable declaration for game board
 	int solutionBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };
 	int puzzleBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };

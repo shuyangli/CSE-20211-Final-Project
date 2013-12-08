@@ -37,6 +37,11 @@ void dc_drawCharacter(int x, int y, char c) {
 		dc_drawNumeral(x, y, (int)c);
 		return;
 	}
+
+	if (c >= '0' && c <= '9') {
+		dc_drawNumeral(x, y, c - '0');
+		return;
+	}
 	
 	switch (c) {
 		case 'a':
