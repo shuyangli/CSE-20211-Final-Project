@@ -102,6 +102,8 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 
 void promptInvalid(int xPos, int yPos);
 
+void gameInstructions();
+
 
 /*
    =============
@@ -569,6 +571,30 @@ void promptInvalid(int xIndex, int yIndex) {
 	gfx_color(0, 0, 0);
 	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
 	gfx_color(255, 255, 255);
+}
+
+void gameInstructions(){
+	gfx_color(255,255,255);
+	dc_updateHeight(40);
+	dc_drawString(158,20,"instructions");
+	gfx_line(155, 65, 443, 65);
+	dc_updateHeight(15);
+	dc_drawString(30, 100, "The objective of sudoku is to enter a digit from 1 through 9 in each");
+	dc_drawString(30, 130, "cell such that: ");
+	draw_rect(50, 180,5,5);
+	dc_drawString(65, 175, "Each row contains each digit exactly once");
+	draw_rect(50,210,5,5);
+	dc_drawString(65, 205, "Each column contains each digit exactly once");
+	draw_rect(50,240,5,5);
+	dc_drawString(65, 235, "Each 3x3 subgrid contains each digit exactly once");
+	dc_drawString(30, 285, "Guidelines");
+	draw_rect(50,335,5,5);
+	dc_drawString(65,330,"Given digits in white cannot be changed");
+	draw_rect(50,365,5,5);
+	dc_drawString(65,360,"Click inside a box and press desired number key to enter digit");
+	draw_rect(150, 480, 300, 100);
+	dc_updateHeight(35);
+	dc_drawString(161,510,"return to menu");
 }
 
 void drawGameMenu() {
