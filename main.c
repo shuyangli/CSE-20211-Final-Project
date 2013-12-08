@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <unistd.h>
 #include "gfx.h"
 
 // this library is for drawing characters in the graphics window
@@ -535,7 +536,7 @@ void showGameMenu(int *userChoice, hardness *h) {
 void promptInvalid(int xPos, int yPos, const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	gfx_color(255, 0, 0);
 	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
-	sleep(0.5);
+	usleep(5000);
 	gfx_clear();
 	printBoard(puzzleBoard, validPositions);
 }
