@@ -479,8 +479,44 @@ void screenToIndex(const int screenX, const int screenY, int *indexX, int *index
 
 void showGameMenu(int *userChoice, hardness *h) {
 	drawGameMenu();
-
-	
+	char c;
+	int x, y;
+	while(1){
+		
+		c = gfx_wait();
+		if(c == 1){
+			x = gfx_xpos();
+			y = gfx_ypos();
+			if (x<= 300 && x>=50 && y>= 200 && y<= 300){
+				//hardness = easy
+				*h = easy;
+				*userChoice = 1;
+				break;
+			}
+			else if (x<= 375 && x>= 225 && y>= 200 && y<= 300){
+				//hardness = medium
+				*h = medium;
+				*userChoice = 1;
+				break;
+			}
+			else if (x<= 550 && x>= 400 && y>= 200 && y<= 300){
+				//hardness = hard
+				*h = hard;
+				*userChoice = 1;
+				break;
+			}
+			else if (x<= 450 && x>= 150 && y>= 350 && y<= 450){
+				//open instructions
+				*userChoice = 2;
+				break;
+			}
+			else if (x<= 450 && x>= 150 && y>= 500 && y<= 600){
+				//quit
+				*userChoice = 3;
+				break;
+			}
+		}
+	}
 }
 
 void drawGameMenu() {
@@ -488,8 +524,8 @@ void drawGameMenu() {
 	draw_rect(50, 200, 150, 100); //"EASY"
 	draw_rect(225, 200, 150, 100); //"MEDIUM"
 	draw_rect(400, 200, 150, 100); //"HARD"
-	draw_rect(150, 350, 300, 100); //"PRESS I FOR INSTRUCTIONS"
-	draw_rect(150, 500, 300, 100); //"PRESS Q TO QUIT"
+	draw_rect(150, 350, 300, 100); //"INSTRUCTIONS"
+	draw_rect(150, 500, 300, 100); //"QUIT"
 	//draw_rect(0, height-50, width, 50); // Names
 	gfx_color(255,0,255);
 	dc_updateHeight(75);
