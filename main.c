@@ -49,9 +49,6 @@ boolean debug = true;
 // show game menu and get user input
 void showGameMenu(int *userChoice, hardness *h);
 
-// displays instructions, and returns as the user prompts
-void showInstructions();
-
 /*
    ==========================================
    completed function prototypes are all here
@@ -73,7 +70,7 @@ boolean isValidMove(const int xPos, const int yPos, const int inputNum, const in
 boolean isCorrectMove(const int xPos, const int yPos, const int inputNum, const int solutionBoard[BOARD_SIZE][BOARD_SIZE]);
 
 // gets the user input: an index on board, and an input number
-void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp);
+void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits);
 
 // checks if the game ends
 boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
@@ -142,7 +139,7 @@ int main(int argc, char *argv[]) {
 
 			// if user chooses to show instructions
 			case 2:
-				showInstructions();
+				gameInstructions();
 				break;
 
 			// if user chooses to quit game, we only need to set the flag
@@ -173,15 +170,19 @@ void startGame(hardness h) {
 	int puzzleBoard[BOARD_SIZE][BOARD_SIZE] = { 0 };
 	boolean validPositions[BOARD_SIZE][BOARD_SIZE] = { 0 };
 	boolean userGivesUp = false;
+	boolean userQuits = false;
 
 	generateBoard(solutionBoard, puzzleBoard, validPositions, h);
 
-	while (!isGameEnd(puzzleBoard) && !userGivesUp) {
+	while (!isGameEnd(puzzleBoard) && !userGivesUp && !userQuits) {
 		gfx_clear();
 		printBoard(puzzleBoard, validPositions);
 
 		int xPos, yPos, inputNum;
-		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp);
+		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp, &userQuits);
+
+		if (userGivesUp) break;
+		if (userQuits) break;
 
 		if (debug) {
 			printf("out of getUserInput\n");
@@ -196,7 +197,12 @@ void startGame(hardness h) {
 
 	if (userGivesUp) {
 		printBoard(solutionBoard, validPositions);
-		// wait for user to continue
+		usleep(100000000);
+		return;
+	}
+
+	if (userQuits) {
+		return;
 	}
 }
 
@@ -369,7 +375,7 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 	}
 }
 
-void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp) {
+void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits) {
 
 	boolean selectedGrid = false, inputedNumber = false;
 
@@ -381,6 +387,15 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp)
 
 		switch (event) {
 			case 1:
+
+			if (clickX >= 100 && clickX <= 250 && clickY >= 600 && clickY <= 650) {
+				*userGivesUp = true;
+				return;
+			} else if (clickX >= 350 && clickX <= 500 && clickY >= 600 && clickY <= 650) {
+				*userQuits = true;
+				return;
+			}
+
 			screenToIndex(clickX, clickY, xIndex, yIndex);
 
 				if (debug) {
@@ -598,6 +613,7 @@ void gameInstructions(){
 }
 
 void drawGameMenu() {
+	gfx_color(255, 255, 255);
 	draw_rect(50,50, 500, 100); //"SUDOKU"
 	draw_rect(50, 200, 150, 100); //"EASY"
 	draw_rect(225, 200, 150, 100); //"MEDIUM"
