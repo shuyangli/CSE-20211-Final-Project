@@ -410,9 +410,11 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 	gfx_color(255, 255, 255);
 }
 
-void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits) {
+void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits, boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 
 	boolean selectedGrid = false, inputedNumber = false;
+
+	int lastX = -1, lastY = -1;
 
 	// while the user has not finished the input process
 	while (!(selectedGrid && inputedNumber)) {
@@ -438,8 +440,32 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp,
 				}
 
 			if (*xIndex != -1 && *yIndex != -1) {
-				selectedGrid = true;
-				// possibly highlight the grid?
+				if (isValidPosition(*xIndex, *yIndex)) {
+
+					// show where to draw
+
+					int size = dc_getHeight() / 2;
+
+					if (lastX != -1 && lastY != -1) {
+						int lastXScreen, lastYScreen;
+						indexToScreen(lastX, lastY, &lastXScreen, &lastYScreen);
+						gfx_color(0, 0, 0);
+						draw_filled_rect(lastXScreen, lastYScreen + 12, size, size);
+						gfx_color(255, 255, 255);
+					}
+
+					selectedGrid = true;
+					lastX = *xIndex;
+					lastY = *yIndex;
+					int xScreen, yScreen;
+					indexToScreen(*xIndex, *yIndex, &xScreen, &yScreen);
+
+					gfx_color(0, 255, 255);
+					draw_filled_rect(xScreen, yScreen + 12, size, size);
+
+					gfx_flush();
+
+				}
 
 				if (debug) {
 					printf("selected grid\n");
