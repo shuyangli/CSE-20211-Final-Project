@@ -227,6 +227,17 @@ void startGame(hardness h) {
 	if (userQuits) {
 		return;
 	}
+
+	// show that the player has won
+	gfx_color(0, 0, 0);
+	draw_filled_rect(0, 200, 600, 300);
+	dc_updateHeight(100);
+	gfx_color(255, 0, 0);
+	dc_drawString(100, 270, "You win");
+	gfx_flush();
+	usleep(1000000);
+	gfx_color(255, 255, 255);
+
 }
 
 void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h) {
