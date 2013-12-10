@@ -245,11 +245,11 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 		}
 
 		// we first generate 18 random cells on the solution board
-		int numLeft = 18;
+		int numLeft = 30;
 		
 		while (numLeft > 0) {
 			int nextX = rand() % BOARD_SIZE;
-			int nextY = (numLeft > 16) ? 0 : rand() % BOARD_SIZE;
+			int nextY = (numLeft > 28) ? 0 : rand() % BOARD_SIZE;
 			
 			if (isValidPosition(nextX, nextY)) {
 				// if the position is valid, generate a random number at that position
