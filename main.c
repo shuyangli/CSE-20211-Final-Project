@@ -191,7 +191,7 @@ void startGame(hardness h) {
 		if (isValidPosition(xPos, yPos) && isCorrectMove(xPos, yPos, inputNum, solutionBoard)) {
 			puzzleBoard[yPos][xPos] = inputNum;
 		} else {
-			promptInvalid(xPos, yPos);
+			promptInvalid(xPos, yPos, inputNum);
 		}
 	}
 
@@ -577,7 +577,7 @@ void showGameMenu(int *userChoice, hardness *h) {
 	}
 }
 
-void promptInvalid(int xIndex, int yIndex) {
+void promptInvalid(int xIndex, int yIndex, int inputNum) {
 	int xPos, yPos;
 	indexToScreen(xIndex, yIndex, &xPos, &yPos);
 	gfx_color(255, 0, 0);
