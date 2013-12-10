@@ -97,7 +97,7 @@ void drawGameMenu();
 
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
-void promptInvalid(int xPos, int yPos);
+void promptInvalid(int xIndex, int yIndex, int inputNum);
 
 void gameInstructions();
 
@@ -130,6 +130,10 @@ int main(int argc, char *argv[]) {
 		hardness h;
 		showGameMenu(&userChoice, &h);
 
+		if (debug) {
+			printf("userChoice: %d\n", userChoice);
+		}
+
 		switch (userChoice) {
 
 			// if user chooses to start game
@@ -139,6 +143,9 @@ int main(int argc, char *argv[]) {
 
 			// if user chooses to show instructions
 			case 2:
+			if (debug) {
+				printf("call gameInstructions\n");
+			}
 				gameInstructions();
 				break;
 
@@ -175,6 +182,9 @@ void startGame(hardness h) {
 	generateBoard(solutionBoard, puzzleBoard, validPositions, h);
 
 	while (!isGameEnd(puzzleBoard) && !userGivesUp && !userQuits) {
+		if (debug) {
+			printf("in game loop\n");
+		}
 		gfx_clear();
 		printBoard(puzzleBoard, validPositions);
 
@@ -197,7 +207,14 @@ void startGame(hardness h) {
 
 	if (userGivesUp) {
 		printBoard(solutionBoard, validPositions);
-		usleep(100000000);
+		int i, j;
+		for (i = 0; i < 9; i++) {
+			for (j = 0; j < 9; j++) {
+				printf("%d", solutionBoard[i][j]);
+			}
+			printf("\n");
+		}
+		usleep(1000000);
 		return;
 	}
 
@@ -353,7 +370,6 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 
 void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	
-	// to be implemented
 	gfx_color(255, 255, 255);
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
 	drawGameButtons();
@@ -364,8 +380,7 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 			if (puzzleBoard[y][x] != 0){
 				if (isValidPosition(x, y)){
 					gfx_color(0,255, 255);
-				}
-				else {
+				} else {
 					gfx_color(255,255,255);
 				}
 				indexToScreen(x,y, &sx, &sy);
@@ -373,6 +388,8 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 			}
 		}
 	}
+
+	gfx_color(255, 255, 255);
 }
 
 void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits) {
@@ -578,17 +595,26 @@ void showGameMenu(int *userChoice, hardness *h) {
 }
 
 void promptInvalid(int xIndex, int yIndex, int inputNum) {
+
+	if (debug) {
+		printf("in prmoptInvalid\n");
+	}
+
 	int xPos, yPos;
 	indexToScreen(xIndex, yIndex, &xPos, &yPos);
 	gfx_color(255, 0, 0);
+
+	if (debug) {
+		printf("xIndex: %d, yIndex: %d, xPos: %d, yPos: %d\n", xIndex, yIndex, xPos, yPos);
+	}
+
 	dc_drawCharacter(xPos, yPos, inputNum);
-	usleep(5000);
-	gfx_color(0, 0, 0);
-	draw_filled_rect(xPos-.28, yPos-.28, 18, 35);
+	usleep(500000);
 	gfx_color(255, 255, 255);
 }
 
 void gameInstructions(){
+	gfx_clear();
 	gfx_color(255,255,255);
 	dc_updateHeight(40);
 	dc_drawString(158,20,"instructions");
@@ -610,6 +636,17 @@ void gameInstructions(){
 	draw_rect(150, 480, 300, 100);
 	dc_updateHeight(35);
 	dc_drawString(161,510,"return to menu");
+
+	while (true) {
+		char event = gfx_wait();
+		int x = gfx_xpos();
+		int y = gfx_ypos();
+
+		if (event == 1) {
+			if (x >= 150 && x <= 450)
+				if (y >= 480 && y <= 580) break;
+		}
+	}
 }
 
 void drawGameMenu() {
