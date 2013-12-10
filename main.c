@@ -65,20 +65,20 @@ void startGame(hardness h);
 void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE], hardness h);
 
 // given a position and a move on the board, this function returns if the move is valid according to Sudoku rules
-boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]);
+boolean isValidMove(int xPos, int yPos, int inputNum, int board[BOARD_SIZE][BOARD_SIZE]);
 
-boolean isCorrectMove(const int xPos, const int yPos, const int inputNum, const int solutionBoard[BOARD_SIZE][BOARD_SIZE]);
+boolean isCorrectMove(int xPos, int yPos, int inputNum, int solutionBoard[BOARD_SIZE][BOARD_SIZE]);
 
 // gets the user input: an index on board, and an input number
-void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits);
+void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp, boolean *userQuits, boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
 // checks if the game ends
-boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
+boolean isGameEnd(int puzzleBoard[BOARD_SIZE][BOARD_SIZE]);
 
 // solves a given board with backtracking
 // note: they are not debugged
-boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
-boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
 // functions for drawing the game grid on screen
 void draw_grid(double x, double y, double length, double box_length);
@@ -88,18 +88,20 @@ void draw_rect(int x, int y, double width, double height);
 void drawGameButtons();
 
 // helper function to translate from screen location to board index
-void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY);
+void screenToIndex(int screenX, int screenY, int *indexX, int *indexY);
 
 // helper function to translate from board index to screen location
-void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY);
+void indexToScreen(int indexX, int indexY, int *screenX, int *screenY);
 
 void drawGameMenu();
 
-void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
+void printBoard(int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]);
 
 void promptInvalid(int xIndex, int yIndex, int inputNum);
 
 void gameInstructions();
+
+void draw_filled_rect(int x, int y, double width, double height);
 
 
 /*
@@ -189,7 +191,7 @@ void startGame(hardness h) {
 		printBoard(puzzleBoard, validPositions);
 
 		int xPos, yPos, inputNum;
-		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp, &userQuits);
+		getUserInput(&xPos, &yPos, &inputNum, &userGivesUp, &userQuits, validPositions);
 
 		if (userGivesUp) break;
 		if (userQuits) break;
@@ -308,7 +310,7 @@ void generateBoard(int solutionBoard[BOARD_SIZE][BOARD_SIZE], int puzzleBoard[BO
 	}
 }
 
-boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
+boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	// backtracking algorithm to solve a given sudoku board
 
 	// get the first valid position
@@ -323,7 +325,7 @@ boolean solveBoard(int board[BOARD_SIZE][BOARD_SIZE], const boolean validPositio
 	return solveBoardSub(board, beginX, beginY, validPositions);
 }
 
-boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
+boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	
 	// handle end-game case: curY is out of bounds
 	if (curY >= BOARD_SIZE) return true;
@@ -359,7 +361,7 @@ boolean solveBoardSub(int board[BOARD_SIZE][BOARD_SIZE], int curX, int curY, con
 	return false;
 }
 
-boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
+boolean isGameEnd(int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 
 	int i, j;
 	int numBlank = 0;
@@ -372,7 +374,7 @@ boolean isGameEnd(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE]) {
 	return true;
 }
 
-void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
+void printBoard(int puzzleBoard[BOARD_SIZE][BOARD_SIZE], boolean validPositions[BOARD_SIZE][BOARD_SIZE]) {
 	
 	gfx_color(255, 255, 255);
 	draw_grid(TOP_LEFT, TOP_LEFT, 9*BOX_LENGTH, BOX_LENGTH);
@@ -502,7 +504,7 @@ void getUserInput(int *xIndex, int *yIndex, int *inputNum, boolean *userGivesUp,
 	}
 }
 
-boolean isValidMove(const int xPos, const int yPos, const int inputNum, const int board[BOARD_SIZE][BOARD_SIZE]) {
+boolean isValidMove(int xPos, int yPos, int inputNum, int board[BOARD_SIZE][BOARD_SIZE]) {
 	int i;
 	int gridBaseX = (xPos / 3) * 3, gridBaseY = (yPos / 3) * 3;
 	
@@ -522,7 +524,7 @@ boolean isValidMove(const int xPos, const int yPos, const int inputNum, const in
 	return true;
 }
 
-boolean isCorrectMove(const int xPos, const int yPos, const int inputNum, const int solutionBoard[BOARD_SIZE][BOARD_SIZE]) {
+boolean isCorrectMove(int xPos, int yPos, int inputNum, int solutionBoard[BOARD_SIZE][BOARD_SIZE]) {
 	return (solutionBoard[yPos][xPos] == inputNum);
 }
 
@@ -566,11 +568,14 @@ void draw_rect(int x, int y, double width, double height)
 }
 
 void draw_filled_rect(int x, int y, double width, double height) {
+	
 	double i;
 
-	for (i = y; i <= y + height; i += 0.05) {
-		gfx_line(x, y, x + width, y + height);
+	for (i = y; i <= y + height; i += 0.01) {
+		gfx_line(x, i, x + width, i);
 	}
+
+	gfx_flush();
 }
 
 void drawGameButtons()
@@ -584,12 +589,12 @@ void drawGameButtons()
 
 }
 
-void indexToScreen(const int indexX, const int indexY, int *screenX, int *screenY) {
+void indexToScreen(int indexX, int indexY, int *screenX, int *screenY) {
 	*screenX = TOP_LEFT + 19.28 + indexX * BOX_LENGTH;
 	*screenY = TOP_LEFT + 10.28 + indexY * BOX_LENGTH;
 }
 
-void screenToIndex(const int screenX, const int screenY, int *indexX, int *indexY) {
+void screenToIndex(int screenX, int screenY, int *indexX, int *indexY) {
 	*indexX = (int)floor((screenX - BOX_LENGTH) / BOX_LENGTH);
 	*indexY = (int)floor((screenY - BOX_LENGTH) / BOX_LENGTH);
 	if ((*indexX) < 0 || (*indexX) > 8) *indexX = -1;
