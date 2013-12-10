@@ -584,7 +584,7 @@ void promptInvalid(int xIndex, int yIndex) {
 	dc_drawCharacter(xPos, yPos, puzzleBoard[y][x]);
 	usleep(5000);
 	gfx_color(0, 0, 0);
-	draw_filled_rect(xPos+19, yPos+10, 18, 35);
+	draw_filled_rect(xPos-.28, yPos-.28, 18, 35);
 	gfx_color(255, 255, 255);
 }
 
