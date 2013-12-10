@@ -1,4 +1,4 @@
-all: sudoku
+all: sudoku clean
 
 LINF = -lX11 -lm
 MACF = -I/usr/X11R6/include -L/usr/X11R6/lib
