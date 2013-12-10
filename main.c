@@ -38,7 +38,7 @@ typedef enum { false = 0, true } boolean;
 // typedef for hardness
 typedef enum { easy, medium, hard } hardness;
 
-boolean debug = true;
+boolean debug = false;
 
 /*
    ==========================================================
@@ -207,13 +207,17 @@ void startGame(hardness h) {
 
 	if (userGivesUp) {
 		printBoard(solutionBoard, validPositions);
-		int i, j;
-		for (i = 0; i < 9; i++) {
-			for (j = 0; j < 9; j++) {
-				printf("%d", solutionBoard[i][j]);
+
+		if (debug) {
+			int i, j;
+			for (i = 0; i < BOARD_SIZE; i++) {
+				for (j = 0; j < BOARD_SIZE; j++) {
+					printf("%d", solutionBoard[i][j]);
+				}
+				printf("\n");
 			}
-			printf("\n");
 		}
+		gfx_flush();
 		usleep(1000000);
 		return;
 	}
@@ -375,9 +379,19 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 	drawGameButtons();
 
 	int x, y, sx, sy;
-	for (x = 0; x < BOARD_SIZE; x++) {
-		for (y = 0; y < BOARD_SIZE; y++) {
+	for (y = 0; y < BOARD_SIZE; y++) {
+
+		if (debug) {
+			printf("y=%d\n", y);
+		}
+
+		for (x = 0; x < BOARD_SIZE; x++) {
 			if (puzzleBoard[y][x] != 0){
+
+				if (debug) {
+					printf("x = %d\n", x);
+				}
+
 				if (isValidPosition(x, y)){
 					gfx_color(0,255, 255);
 				} else {
@@ -385,6 +399,10 @@ void printBoard(const int puzzleBoard[BOARD_SIZE][BOARD_SIZE], const boolean val
 				}
 				indexToScreen(x,y, &sx, &sy);
 				dc_drawCharacter(sx, sy, puzzleBoard[y][x]);
+
+				if (debug) {
+					printf("drew %d at %d %d\n", puzzleBoard[y][x], sx, sy);
+				}
 			}
 		}
 	}
@@ -609,6 +627,7 @@ void promptInvalid(int xIndex, int yIndex, int inputNum) {
 	}
 
 	dc_drawCharacter(xPos, yPos, inputNum);
+	gfx_flush();
 	usleep(500000);
 	gfx_color(255, 255, 255);
 }
@@ -651,7 +670,7 @@ void gameInstructions(){
 
 void drawGameMenu() {
 	gfx_color(255, 255, 255);
-	draw_rect(50,50, 500, 100); //"SUDOKU"
+	// draw_rect(50,50, 500, 100); //"SUDOKU"
 	draw_rect(50, 200, 150, 100); //"EASY"
 	draw_rect(225, 200, 150, 100); //"MEDIUM"
 	draw_rect(400, 200, 150, 100); //"HARD"
