@@ -581,10 +581,10 @@ void promptInvalid(int xIndex, int yIndex) {
 	int xPos, yPos;
 	indexToScreen(xIndex, yIndex, &xPos, &yPos);
 	gfx_color(255, 0, 0);
-	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
+	dc_drawCharacter(xPos, yPos, puzzleBoard[y][x]);
 	usleep(5000);
 	gfx_color(0, 0, 0);
-	draw_filled_rect(xPos, yPos, BOX_LENGTH, BOX_LENGTH);
+	draw_filled_rect(xPos+19, yPos+10, 18, 35);
 	gfx_color(255, 255, 255);
 }
 
